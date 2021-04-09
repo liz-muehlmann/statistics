@@ -1,0 +1,471 @@
+---
+title: "Chapter 1 - Notes"
+editor_options:
+  chunk_output_type: console
+output: 
+  html_document: 
+    toc: yes
+    highlight: haddock
+---
+Name| Content
+------------- | -------------
+TYPE | notes
+BOOK | Practical Statistics for Data Scientists
+AUTHORS | Peter Bruce, Andrew Bruce, & Peter Gedeck
+PUBLISHER | O'Reilly
+
+These are my notes from the above book. I wanted to learn statistics in more depth. I hope this helps you learn as well.
+I * strongly * recommend that you purchase the book and work your way through it. It's well-written and easy to follow.
+
+
+```{r, echo = F}
+library(knitr)
+library(shiny)
+library(formatR)
+``` 
+
+```{r loaddata, message=FALSE, warning=FALSE, attr.source='.numberLines', tidy=TRUE, tidy.opts=list(width.cutoff=50)}
+state <- read.csv("data/state.csv") 
+dfw <- read.csv("data/dfw_airline.csv")
+stocks <- read.csv("data/sp500_px.csv")
+symbols <- read.csv("data/sp500_sym.csv")
+tax <- read.csv("data/kc_tax.csv")
+loans <- read.csv("data/lc_loans.csv")
+airlines <- read.csv("data/airline_stats.csv")
+
+# Data is available from:
+# https://github.com/gedeck/practical-statistics-for-data-scientists/tree/master/data
+
+#several libraries are used throughout the book. Be sure to install each package using install.packages("package-name") before calling it using the library() function
+
+library("tidyverse") ## useful for data manipulation
+
+# other packages used
+
+library("ggplot2") ## makes graphs easier and prettier
+library("vioplot") ## used to customize violin plots
+library("ascii") ## exports R objects to several markup languages
+library("corrplot") ## graphical display of a correlation matrix
+library("descr") ## useful for descriptive statistics
+library("matrixStats") # used for Weighted Mean
+
+# All code chunk are in the R language.
+```
+
+
+
+## 1.1 Elements of Structured Data
+#### Numeric Data:
++ data that are expressed on a numeric scale
++ *Continuous* - (wind speed, time)
++ *Discrete* - Count of how many times something occurs (score, number of events)
+
+#### Categorical:
++ takes a fixed set of values (type of tv, state name)
++ *Binary* - only takes one of two values (yes/no, 1/0, true/false)
++ *Ordinal* - categories are ordered (ratings)
+
+Knowing the data type is useful for:
++ visualizing data
++ data analysis
++ statistical modeling
+
+-- When R imports using read.csv it automatically converts text columns to *factors.* This means the only allowable values for that column are the original ones. Adding a new text value will result in a warning and the data type being set to NA.
+
+---
+
+## 1.2 Rectangular Data
++ Two-dimensional matrix with rows indicating cases & columns indicating variables
++ *data frame* is specific to R and Python (aka spreadsheet)
++ In R, basic rectangular data structure is a ```data.frame``` object. It has an implicit integer index based on row order. User can create a custom key using ```row.names``` attribute.
++ useful packages ```data.table``` and ```dplyr```
+
+#### other data types
++ time series: measurements of the same variable over time.
++ spatial data structures: in the *object* view the data is an object (ex. house) and its spatial coordinates. In the *field* view, the focus is on small units of space and the value of a relevant metric (ex. pixel brightness).
++ graph/network: physical, social, and abstract relationships.
+
+---
+
+## 1.3 Estimates of Location
+First step is to get a "typical value" for each variable. This is an estimate of where most of the data is located.
+Useful when you want a single number to describe the location or variability of the data
+
+$N$ or $n$ refers to the total number of observations. Where $N$ refers to the entire population and $n$ is a sample from the population.
+
+
+Name          | Calculated By | Misc. Info | Equation
+------------- | ------------- | ------------- | -------------
+Mean          | Average value. Taking the sum of all the values and <br> dividing it by the total number of values | Most basic estimate of  data location | mean = $\bar{x} =\displaystyle \frac {\sum_{i=1}^{n} x_{i}} n$
+Trimmed Mean  | Dropping a fixed number of sorted values at each end <br> then taking the average of the remaining values | Eliminates the influence of extreme values (usually top/bottom 10%). Compromise between Mean & Median, because it's robust to extreme values, but uses more data to calculate the estimate for location. | trimmed mean = $\bar{x} =\displaystyle \frac {\sum_{i=p+1}^{n-p} x_{(i)}} {n-2_p}$
+Weighted Mean | Multiply each data value `x_i` by a user-specified weight <br> `w` and dividing their sum by the sum of the weights | Some values are more variable, so are given a lower <br>weight. Data we collected may not be representative, so we may give higher weight to certain values. | weighted mean = $\bar{x}_w =\displaystyle \frac {\sum_{i=1}^{n} w_{i}x_{i}} {\sum_{i=1}^{n} w_{i}}$
+
+
+#### Median and Robust Estimates
+Name          | Calculated by | Misc. Info
+------------- | ------------- | -------------
+Median        | Order the data from lowest to highest. The middle value is the median. If there is no median value, the <br> median is the average of the two most middle value. | Not sensitive to outliers
+Weighted Median  | Each value in the dataset is given a weight, the data is sorted, then the weighted median is calculated so that the sum of the weights is equal for the lower and upper halves of the sorted list.  |
+Outliers  |   |  Extreme values in the dataset. Often the result of data errors.
+
+#### Example: Location Estimates of Population and Murder Rates
+```{r, location, attr.source='.numberLines'}
+  mean(state$Population)
+  mean(state$Population, 0.1)
+  median(state$Population)
+```
+
+---
+
+## 1.4 Estimates of Variability (Dispersion)
+Measures whether the data is tightly clustered or spread out.
+
+Name | Definition | Synonyms | Equation
+------------- | ------------- | ------------- |
+Deviations |  The difference between the observed values and the estimate of location  | Errors, residuals  | Usually calculated using Mean Absolute Deviation. $Mean Absolute Deviation = \displaystyle \frac {\sum_{i=1}^{n} \left\lvert x_i -\bar{x}\right\rvert^2} {n} $
+Variance      | The sum of squared deviations from the mean divided by n-1 where n is the number of data values  | mean-squared-errors | $variance = s^2 = \displaystyle \frac {\sum_{i=1}^{n} (x_i -\bar{x})^2} {n-1}$
+Standard Deviation  | Easier to interpret than Variance because it's on the same scale as the data. Square root of the variance. | | $Standard Deviation = \sqrt{variance}$
+
+Where $\bar{x}$ is the sample mean.
+
+*Degrees of Freedom:* the number of degrees of freedom is the number of values in the final calculation of a statistic that are free to vary. For this reason, in the Variance equation, using $n$ will result in a biased estimate because you will underestimate the true value of the variance and standard deviation. Using $n-1$ will result in an unbiased estimate because it accounts for the one constraint on the data: the standard deviation (which depends on calculating the sample mean.)
+
+Deviations, Variance, and Standard Deviation are all sensitive to outliers. An estimate that is not sensitive to outliers is the *median absolute deviation from the median (MAD)* = $Median(\left\lvert x_1-m \right\rvert, \left\lvert x_2-m \right\rvert, ... \left\lvert x_N-m \right\rvert$) where $m$ is the median.
+
+
+#### Estimates Based on Percentiles
+Statistics is based on ranked data.
+
+Name | Definition | Other
+-------------  | ------------- | -------------
+Range | Difference between the largest and smallest numbers. | Sensitive to outliers.
+Percentiles  | a percentile is a score below which a given percentage of <br>scores in its frequency distribution fall or a score at or below which a given percentage fall. | Not sensitive to outliers
+Quantile  | Percentile, by a different name. Quantiles are indexed by fractions.   | 0.8 quantile is the same as 80th percentile
+Interquartile Range (IQR)  | Common measurement of variability. Difference between 25th and 75th percentile
+
+#### Example: Variability Estimates of State Population
+```{r variablity, attr.source='.numberLines'}
+sd(state$Population)
+IQR(state$Population)
+mad(state$Population)
+```
+
+---
+
+## 1.5 Exploring Data Distribution
+Plots and graphs are useful when determining the distribution of the data overall.
+
+#### Percentiles & Boxplots
+Useful for summarizing the entire distribution of the data. 
+
+#### Percentiles
+Quartiles are usually reported (25th, 50th, and 75th are most common).
+Deciles (10th, 20th, ... 90th) are also commonly reported.
+Percentiles are especially useful for summarizing the *tails* (which are the outer range of the distribution)
+
+```{r quantile, attr.source='.numberLines', tidy=TRUE, tidy.opts=list(width.cutoff=50)}
+quantile(state$Murder.Rate, p=c(.05, .25, .5, .75, .90)) # p = tells r which percentiles you want. To get multiple percentiles you have to concatenate using using c()
+```
+*How to read a percentile table*
+The table shows that the median is 4 murders per 100,000 people. There is some variability though, since the 5th percentile has 1.6 murders while the 95th percentile has 6.51 per 100,000 people.
+
+#### Boxplots
+Boxplots are based on percentiles and offer a quick way to visualize the data's distribution. 
++ Good way to compare the distribution of a numeric variable groups according to a categorical variable (e.g. age vs. occupation)
+
+``` {r boxplot, attr.source='.numberLines', tidy=TRUE, tidy.opts=list(width.cutoff=50)}
+boxplot(state$Population/100000, ylab = "Population (Millions)")
+```
+
+*How to read a boxplot*
+
+1. The box shows the distribution of most of the data.
+   a. The top portion of the box sits around 7 million.
+   b. The bottom portion of the box sits around 2 million.
+   c. The top box of the the 75th percentile.
+   d. The bottom of the box is the 25th percentile.
+2. The median is the dark line in the middle of the box.
+   a. It shows that the median is roughly 5 million.
+3. The dashed line (*whiskers*) show the range for the bulk of the data.
+   a. Keep in mind that base R will extend the whiskers to the farthest point from the box, but *will not* go further than 1.5 times the Inter Quartile Range (IQR)
+4. Outliers are plotted as single points (circles).
+
+#### Frequency Tables & Histograms
+A frequency table divides the variable into equally spaced segments and shows how many values fall within each segment. 
+
+Histograms are the visual version of a frequency table. Empty bins should be included. The user can choose the bin size. 
+
+#### Frequency Tables
+``` {r freqtable, attr.source='.numberLines', tidy=TRUE}
+# This section uses dplyr from the tidyverse library. Be sure to load it using library(tidyverse) or install it using install.packages("tidyverse") then loading the library. 
+
+breaks <- seq(from=min(state$Population), to=max(state$Population), length=11) # we set the breaks for the frequency table manually. seq() breaks the population variable into 11 sections starting at the lowest population to the highest.
+pop_freq <- cut(state$Population, breaks=breaks, right=TRUE, include.lowest = TRUE) # cut() breaks Population according to whatever comes after breaks=breaks (in this case, the break points we set in the line before). right = TRUE means the intervals should start on the right and close on the left. 
+state['PopFreq'] <- pop_freq # adds a new column to the dataframe "state" called "PopFreq"
+table(pop_freq) # makes a table from the values included in pop_freq
+
+## Code for FreqTable // %>% are pipes and are part of dplyr, they let you do multiple transformations on the data set at one time
+state_abb <- state %>% 
+  arrange(Population) %>% # sort the data by Population
+  group_by(PopFreq) %>% # then group by the PopFreq column made above
+  summarize(state = paste(Abbreviation, collapse=","), .drop=FALSE) %>% # summarize creates a new data frame from the state variable. Paste converts the r object "Abbreviation" to a string and concatenates them by the collapse character. .drop=FALSE tells summarize to keep the data's dimensions so it doesn't throw an error
+  complete(PopFreq, fill=list(state='')) %>% # complete takes implicit missing values and makes them explicit. Here it takes PopFreq and fills in all the blanks with state list
+  select(state) # keep only the state variable
+
+state_abb <- unlist(state_abb) # simplifies the list state_abb into a vector
+
+lower_br <- formatC(breaks[1:10], format="d", digits=0, big.mark=",") # formatC formats numbers based on C style programming. Here its sets the breaks from 1-10, "d" after format is to format it as integers. Digits is how many numbers after the decimal to show. Big mark is where to split numbers (i.e. 100 vs. 1,000)
+upper_br <- formatC(c(breaks[2:10], breaks[11]), format="d", digits=0, big.mark=",") # see previous except this time it's for numbers 2-10
+
+pop_table <- data.frame("BinNumber"=1:10, # data.frame creates a data frame. Here we set the BinNumber variable to numbers 1-10
+                        "BinRange"=paste(lower_br, upper_br, sep="-"), #BinRange is the lower and upper breaks separated by a -. This will give you the output that looks like 100-1,000
+                        "Count"=as.numeric(table(pop_freq)), # Count we transform the table pop_freq into numbers
+                        "States"=state_abb) # Plug in the state abbreviations
+ascii(pop_table, include.rownames=FALSE, digits=c(0, 0, 0, 0), align=c("l", "r", "r", "l"), # ascii 
+      caption="A frequency table of population by state.")
+
+```
+
+When choosing bin size, keep in mind that if the bins are too large, you might lose important features. Bins that are too small result in a representation that is too granular.
+
+#### Histograms
+Histograms are how we visualize frequency tables. The bins are on the x-axis with the counts on the y-axis.
+
+``` {r histogram, attr.source='.numberLines'}
+hist(state$Population, breaks=breaks)
+```
+
+Conventions:
++ Empty bins are included in the graphs
++ Bins are equal width
++ The number of bins is up to the user
++ Bars are contiguous (no empty spaces between bars, unless there's empty bins)
+
+*Skewness* refers to whether the data in is skewed towards larger or smaller values. 
+The above histogram skews right because the tail (lower values) are on the right side.
+
+#### Density Plots and Estimates
+Density plot is essentially a smoothed out histogram. Usually it's compute directly from the data (rather than by the user)
+
+```{r histdensity, attr.source='.numberLines'}
+hist(state$Murder.Rate, freq=FALSE) # set freq=FALSE so that it shows density instead of raw counts
+lines(density(state$Murder.Rate), lwd=3, col = "blue") #lines() is a function that takes coordinates and joins them in a line. density() is the function call for a density plot. lwd=3 is the type and line width argument for the lines() function. col='blue' sets the color to blue.
+```
+
+---
+
+## 1.6 Exploring Binary and Categorical Data
+Binary or categorical data is data that only has two options. Yes/no, true/false, etc. 
+
+#### Bar Charts
+Useful for displaying a single categorical variable. <br>
+Categories are listed on the x-axis, frequencies or proportions are on the y-axis.<br>
+Similar to a histogram, but in a histogram gaps between bars signifies empty bins. Alternatively, bar charts usually show the bars separate from each other.
+This can also be converted into a pie chart, but those are more difficult to read
+
+``` {r barplot, attr.source='.numberLines'}
+barplot(as.matrix(dfw)/6, cex.axis=0.8, cex.names = 0.7, xlab = 'Cause of Delay', ylab='Count') # asmatrix() converts a dataframe into a matrix. the count is divided by 6 so that the x-axis numbers are readable. cex.axis=# and cex.names=# make the x and y axis labels larger or smaller. xlab & ylab stand for x-axis label and y-axis label, respectively. 
+
+```
+
+#### Mode
+The value that appears more often in the data. Usually only used for categorical data and not for numeric data
+
+##### Expected Value
+*Expected Value* is a type of weighted mean. <br>
+It's calculated by:
+1. Multiply each outcome by the probability of its occurrence
+2. Sum the values
+
+```
+Example: 
+Say you think 5% of people will vote yes to institute a flat tax of $250/month to fund community services program. You think that 10% will vote yes for a flat tax of $50 month to fund the same programs, and 85% will vote no
+
+Expected Value = *EV* = (0.05)(250) + (0.10)(50) + (0.85)(0) = 17.5 <br>
+You could expect to earn $17.50/month from the flat tax.
+```
+
+#### Probability
+*Probability* is the proportion of times x will occur if the event were to happen repeatedly.<br>
+
+If there is a 2-to-1 chance of something happening, then it is 2/(2+1) = 2/3 chance.
+
+---
+
+## 1.7 Correlation
+Generally, *correlation* is whether two variables are related to one another. It is sensitive to outliers. <br> 
+*Positive correlation* is when high (or low) values of B go with high (or low) values of A.
+*Negative correlation* is when low values of B go with high values of A, or vice versa.
+
+![Scatterplots showing correlation from spss-tutorials.com](images/Chapter 1 - Correlation.png)
+
+
+In the above image the top right, bottom left, bottom right, and middle images show positive correlation. The middle left, middle right, and bottom middle images show negative correlation. The correlation number at the top of each graph shows the strength of the correlation.
+
+Name | Definition | Equation
+------------- | ------------- | ------------- |
+*(Pearson's) Correlation Coefficient:* | estimate of the correlation between two variables that is always on the same scale. This allows your to compare the strength of the correlation across research projects. | $r =\displaystyle \frac {\sum_{i=1}^{n} (x_i-\bar{x})(y_i-\bar{y})} {(n-1)s_xs_y}$
+
+Correlation always lies between -1 and 1. -1 is perfect negative correlation, 1 is perfect positive correlation. 0 is no correlation.
+The correlation coefficient is generally only useful if the association between the two variables are linear. 
+
+
+```{r correlationtable, attr.source='.numberLines'}
+telecom <- stocks[, symbols[symbols$sector == 'telecommunications_services', 'symbol']] # this creates a matrix called telecom that has all the telecom stock data from sp500_px. By not specifying a number before the comma in the first set of brackets, it tells r that you want everything. You can also specify a range or number here (eg. sp500_px[1:10, sp500_sym]). The next part selects selects only the symbols from the sp500_sym dataset that match the telecommunications services sector.
+telecom <- telecom[row.names(telecom) > '2012-07-01',] # this selects the dates that come after July 1, 2012
+telecom_cor <- cor(telecom) # cor() makes the table
+telecom_cor # this just prints the table so you can see it.
+```
+
+You can plot a correlation plot as a visual using the ```corrplot``` package.
+
+```{r corrplot, attr.source='.numberLines'}
+etfs <- stocks[row.names(stocks) > '2012-07-01', symbols[symbols$sector == 'etf', 'symbol']] # this selects out all stocks after July 1, 2012, then it selects only those in the exchange-traded funds or etfs
+corrplot(cor(etfs), method='ellipse') # this plots the correlation with ellipses which makes the correlation easier to see visually
+```
+*How to read the correlation plot with ellipses:*
+
++ the direction the ellipse shows whether the two variables are positively correlated (pointed to the top right) or negatively correlated (pointed to the top left)
++ shading and width of the ellipse show strength of the correlation (darker = stronger)
+
+---
+
+#### Scatterplots
+Scatterplots are the most common way to visualize the relationship between two measured data variables. 
+
+The x-axis is one variable, the y-axis is another, and each point represents an observation.
+
+Good for relatively few data points otherwise the middle points are too difficult to decipher (see example below)
+
+```{r scatterplot, attr.source='.numberLines'}
+plot(telecom$T, telecom$VZ, xlab='ATT (T)', ylab = 'Verizon (VZ)')
+```
+*How to read a scatterplot:*
+
+As noted above, the direction of the scatterplot shows whether the variables are positively or negatively correlated. According to this scatterplot, the daily returns for Verizon and AT&T are positively correlated.
+
+## 1.8 Exploring Two or More Variables
+*Univariate* analysis looks at one variable at a time (e.g. mode, variance).
+
+*Bivariate* analysis looks at two variables at a time (e.g. correlation).
+
+*Multivariate* analysis looks at more than two variables at a time.
+
+The type of plot you use will depend on what kind of data (numerical or categorical) you have. 
+
+#### Numeric vs. Numeric Data
+
+Hexagonal Binning and Contouring data is very useful when you have a large number of observations. Since a scatterplot will be too dense, these two plots allow you to use color and shape to show the number of observations more easily. 
+
++ Hexagonal binning, contour plots, and heat maps are visual representations of two-dimensional density.
+
+
+#### Hexagonal Binning
+Hexagonal binning refers the the shape of the bins. It is essentially a scatterplot, but the colors indicate how many observations are in each bin or for each point
+
+```{r hexigonalbinning, attr.source='.numberLines'}
+tax_trimmed <- subset(tax, TaxAssessedValue < 750000 & # this creates a new dataframe called tax_trimmed. In tax_trimmed we'll only have residences that meet all three conditions. The first condition is they must be under $750,000
+                        SqFtTotLiving > 100 & # Second condition is they must be more that 100 sq ft. (eliminates only the smallest of residences)
+                        SqFtTotLiving < 3500) # Third condition is the residence must be less than 3,500 sq ft. (eliminates the biggest properties, which are most likely to be businesses and not houses.)
+nrow(tax_trimmed) # this will return how many rows are in the new dataframe
+
+## We use ggplot to bin the houses in hexagons before plotting them
+ggplot(tax_trimmed, (aes(x=SqFtTotLiving, y=TaxAssessedValue))) + # aes refers to aesthetics. It sets which variable corresponds to which axis
+  stat_binhex(color='white') + #stat_binhex() sets the default color of the hexagon colors
+  theme_bw() + #this sets the background color of the entire graph, here it will appear white, but it can also be set to theme_dark(), theme_minimal(), etc
+  scale_fill_gradient(low='white', high='blue') + # scale_fill_gradient() sets the colors you want the graph to display. White is the low end of the gradient while blue is the highest.
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) + # scale_y_continuous() creates an anonymous function that scales the y axis so it displays readable numbers instead of scientific notation
+  labs(x='Finished Square Feet', y='Tax Assessed Value') # labs() sets the labels for the x and y axis
+```
+
+*How to read this graph:*
+
+This reads like a normal scatterplot, but the bins indicate how many observations fall into that bin. The darker the bin, the more observations.
+
+You can also show this same information using a contour map. 
+
+#### Contour Maps
+
+You can also display this same information using a contour map. A *Contour Map* is essentially a topographical map. It overlays contour bands over a scatterplot.
+
++ it is useful for visualizing two pieces of numerical data 
++ each contour band represents a specific density of points, increasing towards the "peaks."
+
+```{r contourmap, attr.source='.numberLines'}
+ggplot(tax_trimmed, (aes(x=SqFtTotLiving, y=TaxAssessedValue))) + # aes refers to aesthetics. It sets which variable corresponds to which axis
+   theme_bw() + #this sets the background color of the entire graph, here it will appear white, but it can also be set to theme_dark(), theme_minimal(), etc
+  geom_point(alpha=0.1) + # Alpha= refers to the transparency of the individual points. the scale is from 0 to 1 with lower numbers being more transparent.
+  geom_density2d(color='white') + #this sets the color of the contour lines
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) + # scale_y_continuous() creates an anonymous function that scales the y axis so it displays readable numbers instead of scientific notation
+  labs(x='Finished Square Feet', y='Tax Assessed Value') # labs() sets the labels for the x and y axis
+
+```
+
+#### Two categorical Variables
+
+*Contingency Tables* are useful when summarizing two categorical variables. They show a table of counts by category.
+
++ Pivot tables in Excel are the most common way to create a contingency table
++ contingency tables can look at just counts, or can include column and total percentages.
+
+```{r contingencytable, attr.source='.numberLines'}
+loans$letter <- ifelse(loans$grade <= 1, "G", # this creates a new column in the dataframe loans called letters and then checks for a series of conditions. This one says if the number in loans$grade is less than one put an G in the loans$letter column
+                        ifelse(loans$grade <= 2, "F", # if it's less than two, F
+                               ifelse(loans$grade <= 3, "E", # if it's less than 3, E
+                                      ifelse(loans$grade <= 4, "D", # if it's less than 4, D
+                                             ifelse(loans$grade <= 5, "C", # if it's less than 5, C
+                                                    ifelse(loans$grade <=6, "B", # if it's less than 6, B
+                                                           "A")))))) # for every other number, A. It works because it checks the first condition then skips to the next so even though 5 is less than 6 and 4 is less than 5, etc... the condition has been met in a previous line so it is skipped in the later lines.
+
+
+
+x_tab <- CrossTable(loans$letter, loans$status, # this creates a contingency table comparing the grade of the loan vs. the status of the loan
+                    prop.c = FALSE, prop.chisq = FALSE, prop.t = FALSE) #prop.c, if true, includes the column proportions in the table. prop,chisq, if true, includes the chi-square contribution of each cell, prop.t, if true, will include the table proportions. In this case, we are not including any of those things
+x_tab # this line just prints out the contingency table so you can see it 
+```
+
+*How to read a contingency table:*
+1. The first column is the letter grade. The range of numbers that qualify for each letter are set in the code chunk above. (Ultimately I think they're set by the FEC? Credit bureaus? I don't know enough about credit to tell you their scale.)
+2. Each cell has two numbers. The top number is the raw count. So for the A row, charged off column: 1,562 observations with grade A.
+3. The second number in the cell is the percent of observations. For the A row, 2.2% of observations are both Grade A & Charged off.
+4. What this table shows us, is that high grade loans (row A, 2.2%) are less likely to be charged off (i.e. not paid) than lower grade loans (row G, 12.6%)
+
+#### Categorical and Numeric Data
+Here are some common ways to display numeric vs. categorical data
+
+```{r barplot2, attr.source='.numberLines'}
+boxplot(pct_carrier_delay ~ airline, data = airlines, ylab = 'Daily % of Delayed Flights', ylim=c(0,50)) # create a boxplot with the pct_carrier_delay is the numeric data that is split across the category, airline. data = airlines tells R to look for the data in the dataframe called airlines. ylim=c(0,50) sets the limits of the y-axis starting at 0 and ending at 50. c() is for concatenate - basically smash these two things together.
+
+```
+
+*How to read a boxplot:*
+Refer to the previous example for more detailed description of what each component of a boxplot means. For this plot, Alaska airlines has the fewest delays while American has the most
+
+Another way to view this information is by using a *Violin Plot.* Violin plots show more nuance than boxplots do. They're achieved by mirroring the density, flipping it, and then filling in the shape. Basically, the fat bits are where there is a concentration of the data. 
+
+```{r violinplot, attr.source='.numberLines'}
+ggplot(data=airlines, aes(airline, pct_carrier_delay)) + # You need to use ggplot for the violin plot. data= tells ggplot where to look for the data. aes() assigns the variables to the corresponding axes (x, y). 
+  ylim(0,50) + # sets the scale for the y axis
+  geom_violin() + # tells ggplot to make it a violin plot
+  labs(x='airline', y='Daily % of Delayed Flights') # labels the x and y axes
+```
+
+
+*Should I use a Boxplot or a Violin Plot?*
+Boxplots are better if you're interested in showing the outliers more. Violin plots, as noted, are better at highlighting nuance that is missed in boxplots.
+You can overlay a boxplot over a violin plot, but it works best with colors.
+
+#### Visualizing Multiple Variables
+Scatterplots, Hexagonal Binning, and Boxplots can accommodate multiple variables through *conditioning.* Conditioning means we only look at observations based on a certain condition. 
+
+```{r facetwrap, attr.source='.numberLines'}
+ggplot(subset(tax_trimmed, ZipCode %in% c(98188, 98105, 98108, 98126)), # this checks for the numbers listed in c() in the column Zipcodes in the tax_trimmed dataset
+  aes(x=SqFtTotLiving, y=TaxAssessedValue)) + # aes refers to aesthetics. It sets which variable corresponds to which axis
+  stat_binhex(color='white') + #stat_binhex() sets the default color of the hexagon colors
+  theme_bw() + #this sets the background color of the entire graph, here it will appear white, but it can also be set to theme_dark(), theme_minimal(), etc
+  scale_fill_gradient(low='white', high='blue') + # scale_fill_gradient() sets the colors you want the graph to display. White is the low end of the gradient while blue is the highest.
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) + # scale_y_continuous() creates an anonymous function that scales the y axis so it displays readable numbers instead of scientific notation
+  labs(x='Finished Square Feet', y='Tax Assessed Value') + # labs() sets the labels for the x and y axis
+  facet_wrap('ZipCode') # this creates the four plots based on the ZipCodes we chose in the first line.
+```
+

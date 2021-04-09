@@ -1,0 +1,289 @@
+---
+title: "Chapter 1 - Notes"
+output: html_document
+editor_options:
+  chunk_output_type: console
+---
+Name| Content
+------------- | -------------
+TYPE | notes
+BOOK | Practical Statistics for Data Scientists
+AUTHORS | Peter Bruce, Andrew Bruce, & Peter Gedeck
+PUBLISHER | O'Reilly
+
+These are my notes from the above book. I wanted to learn statistics in more depth. I hope this helps you learn as well.
+I * strongly * recommend that you purchase the book and work your way through it. It's well-written and easy to follow.
+
+```r {cmd="Rscript", id="loaddata"}
+state <- read.csv("data/state.csv")
+dfw <- read.csv("data/dfw_airline.csv")
+
+# Data is available from:
+# https://github.com/gedeck/practical-statistics-for-data-scientists/tree/master/data
+
+#several libraries are used throughout the book. Be sure to install each package using install.packages("package-name") before calling it using the library() function
+
+library("tidyverse") ## useful for data manipulation
+
+# other packages used
+
+library("ggplot2") ## makes graphs easier and prettier
+library("vioplot") ## used to customize violin plots
+library("ascii") ## exports R objects to several markup languages
+library("corrplot") ## graphical display of a correlation matrix
+library("descr") ## useful for descriptive statistics
+library("matrixStats") # used for Weighted Mean
+
+# All code chunk are in the R language.
+```
+
+## 1.1 Elements of Structured Data
+#### Numeric Data:
++ data that are expressed on a numeric scale
++ *Continuous* - (wind speed, time)
++ *Discrete* - Count of how many times something occurs (score, number of events)
+
+#### Categorical:
++ takes a fixed set of values (type of tv, state name)
++ *Binary* - only takes one of two values (yes/no, 1/0, true/false)
++ *Ordinal* - categories are ordered (ratings)
+
+Knowing the data type is useful for:
++ visualizing data
++ data analysis
++ statistical modeling
+
+-- When R imports using read.csv it automatically converts text columns to *factors.* This means the only allowable values for that column are the original ones. Adding a new text value will result in a warning and the data type being set to NA.
+
+---
+
+## 1.2 Rectangular Data
++ Two-dimensional matrix with rows indicating cases & columns indicating variables
++ *data frame* is specific to R and Python (aka spreadsheet)
++ In R, basic rectangular data structure is a ```data.frame``` object. It has an implicit integer index based on row order. User can create a custom key using ```row.names``` attribute.
++ useful packages ```data.table``` and ```dplyr```
+
+#### other data types
++ time series: measurements of the same variable over time.
++ spatial data structures: in the *object* view the data is an object (ex. house) and its spatial coordinates. In the *field* view, the focus is on small units of space and the value of a relevant metric (ex. pixel brightness).
++ graph/network: physical, social, and abstract relationships.
+
+---
+
+## 1.3 Estimates of Location
+First step is to get a "typical value" for each variable. This is an estimate of where most of the data is located.
+Useful when you want a single number to describe the location or variablity of the data
+
+$N$ or $n$ refers to the total number of observations. Where $N$ refers to the entire population and $n$ is a sample from the population.
+
+
+Name          | Calculated By | Misc. Info | Equation
+------------- | ------------- | ------------- | -------------
+Mean          | Average value. Taking the sum of all the values and <br> dividing it by the total number of values | Most basic estimate of  data location | mean = $\bar{x} =\displaystyle \frac {\sum_{i=1}^{n} x_{i}} n$
+Trimmed Mean  | Dropping a fixed number of sorted values at each end <br> then taking the average of the remaining values | Eliminates the influence of extreme values (usually top/bottom 10%). Compromise between Mean & Median, because it's robust to extreme values, but uses more data to calculate the estimate for location. | trimmed mean = $\bar{x} =\displaystyle \frac {\sum_{i=p+1}^{n-p} x_{(i)}} {n-2_p}$
+Weighted Mean | Multiply each data value `x_i` by a user-specified weight <br> `w` and dividing their sum by the sum of the weights | Some values are more variable, so are given a lower <br>weight. Data we collected may not be representative, so we may give higher weight to certain values. | weighted mean = $\bar{x}_w =\displaystyle \frac {\sum_{i=1}^{n} w_{i}x_{i}} {\sum_{i=1}^{n} w_{i}}$
+
+---
+
+## 1.4 Median and Robust Estimates
+Name          | Calculated by | Misc. Info
+------------- | ------------- | -------------
+Median        | Order the data from lowest to highest. The middle value is the median. If there is no median value, the <br> median is the average of the two most middle value. | Not sensitive to outliers
+Weighted Median  | Each value in the dataset is given a weight, the data is sorted, then the weighted median is calculated so that the sum of the weights is equal for the lower and upper halves of the sorted list.  |
+Outliers  |   |  Extreme values in the dataset. Often the result of data errors.
+
+## Example: Location Estimates of Population and Murder Rates
+```{r, location}
+  mean(state$Population)
+  mean(state$Population, 0.1)
+  median(state$Population)
+```
+---
+
+## 1.5 Estimates of Variability (Dispersion)
+Measures whether the data is tightly clustered or spread out.
+
+Name | Definition | Synonyms | Equation
+------------- | ------------- | ------------- |
+Deviations |  The difference between the observed values and the estimate of location  | Errors, residuals  | Usually calculated using Mean Absolute Deviation. $Mean Absolute Deviation = \displaystyle \frac {\sum_{i=1}^{n} \left\lvert x_i -\bar{x}\right\rvert^2} {n} $
+Variance      | The sum of squared deviations from the mean divided by n-1 where n is the number of data values  | mean-squared-errors | $variance = s^2 = \displaystyle \frac {\sum_{i=1}^{n} (x_i -\bar{x})^2} {n-1}$
+Standard Deviation  | Easier to interpret than Variance because it's on the same scale as the data. Square root of the variance. | | $Standard Deviation = \sqrt{variance}$
+
+Where $\bar{x}$ is the sample mean.
+
+*Degrees of Freedom:* the number of degrees of freedom is the number of values in the final calculation of a statistic that are free to vary. For this reason, in the Variance equation, using $n$ will result in a biased estimate because you will underestimate the true value of the variance and standard deviation. Using $n-1$ will result in an unbiased estimate because it accounts for the one constraint on the data: the standard deviation (which depends on calculating the sample mean.)
+
+Deviations, Variance, and Standard Deviation are all sensitive to outliers. An estimate that is not sensitive to outliers is the *median absolute deviation from the median (MAD)* = $Median(\left\lvert x_1-m \right\rvert, \left\lvert x_2-m \right\rvert, ... \left\lvert x_N-m \right\rvert$) where $m$ is the median.
+
+---
+
+## 1.6 Estimates Based on Percentiles
+Statistics is based on ranked data.
+
+Name | Definition | Other
+-------------  | ------------- | -------------
+Range | Difference between the largest and smallest numbers. | Sensitive to outliers.
+Percentiles  | a percentile is a score below which a given percentage of <br>scores in its frequency distribution fall or a score at or below which a given percentage fall. | Not sensitive to outliers
+Quantile  | Percentile, by a different name. Quantiles are indexed by fractions.   | 0.8 quantile is the same as 80th percentile
+Interquartile Range (IQR)  | Common measurement of variablity. Difference between 25th and 75th percentile
+
+## Example: Variability Estimates of State Population
+```{r, variablity}
+sd(state$Population)
+IQR(state$Population)
+mad(state$Population)
+```
+---
+
+## 1.7 Exploring Data Distribution
+Plots and graphs are useful when determining the distribution of the data overall.
+
+#### Percentiles & Boxplots
+Useful for summarizing the entire distribution of the data.
+
+##### Percentiles
+Quartiles are usually reported (25th, 50th, and 75th are most common).
+Deciles (10th, 20th, ... 90th) are also commonly reported.
+Percentiles are especially useful for summarizing the *tails* (which are the outer range of the distribution)
+
+```{r, quantile}
+quantile(state$Murder.Rate, p=c(.05, .25, .5, .75, .90)) # p = tells r which percentiles you want. To get multiple percentiles you have to concatenate using using c()
+```
+*How to read a percentile table*
+The table shows that the median is 4 murders per 100,000 people. There is some variability though, since the 5th percentile has 1.6 murders while the 95th percentile has 6.51 per 100,000 people.
+
+##### Boxplots
+Boxplots are based on percentiles and offer a quick way to visualize the data's distribution.
+
+``` {r, boxplot}
+boxplot(state$Population/100000, ylab = "Population (Millions)")
+```
+
+
+*How to read a boxplot*
+
+1. The box shows the distribution of most of the data.
+   a. The top portion of the box sits around 7 million.
+   b. The bottom portion of the box sits around 2 million.
+   c. The top box of the the 75th percentile.
+   d. The bottom of the box is the 25th percentile.
+2. The median is the dark line in the middle of the box.
+   a. It shows that the median is roughly 5 million.
+3. The dashed line (*whiskers*) show the range for the bulk of the data.
+   a. Keep in mind that base R will extend the whiskers to the farthest point from the box, but *will not* go further than 1.5 times the Inter Quartile Range (IQR)
+4. Outliers are plotted as single points (circles).
+
+#### Frequency Tables & Histograms
+A frequency table divides the variable into equally spaced segments and shows how many values fall within each segment.
+
+Histograms are the visual version of a frequency table. Empty bins should be included. The user can choose the bin size.
+
+#### Frequency Tables
+``` {r, freqtable}
+# This section uses dplyr from the tidyverse library. Be sure to load it using library(tidyverse) or install it using install.packages("tidyverse") then loading the library.
+
+breaks <- seq(from=min(state$Population), to=max(state$Population), length=11) # we set the breaks for the frequency table manually. seq() breaks the population variable into 11 sections starting at the lowest population to the highest.
+pop_freq <- cut(state$Population, breaks=breaks, right=TRUE, include.lowest = TRUE) # cut() breaks Population according to whatever comes after breaks=breaks (in this case, the break points we set in the line before). right = TRUE means the intervals should start on the right and close on the left.
+state['PopFreq'] <- pop_freq # adds a new column to the dataframe "state" called "PopFreq"
+table(pop_freq) # makes a table from the values included in pop_freq
+
+## Code for FreqTable // %>% are pipes and are part of dplyr, they let you do multiple transformations on the data set at one time
+state_abb <- state %>%
+  arrange(Population) %>% # sort the data by Population
+  group_by(PopFreq) %>% # then group by the PopFreq column made above
+  summarize(state = paste(Abbreviation, collapse=","), .drop=FALSE) %>% # summarize creates a new data frame from the state variable. Paste converts the r object "Abbreviation" to a string and concatenates them by the collapse character. .drop=FALSE tells summarize to keep the data's dimensions so it doesn't throw an error
+  complete(PopFreq, fill=list(state='')) %>% # complete takes implicit missing values and makes them explicit. Here it takes PopFreq and fills in all the blanks with state list
+  select(state) # keep only the state variable
+
+state_abb <- unlist(state_abb) # simplifies the list state_abb into a vector
+
+lower_br <- formatC(breaks[1:10], format="d", digits=0, big.mark=",") # formatC formats numbers based on C style programming. Here its sets the breaks from 1-10, "d" after format is to format it as integers. Digits is how many numbers after the decimal to show. Big mark is where to split numbers (i.e. 100 vs. 1,000)
+upper_br <- formatC(c(breaks[2:10], breaks[11]), format="d", digits=0, big.mark=",") # see previous except this time it's for numbers 2-10
+
+pop_table <- data.frame("BinNumber"=1:10, # data.frame creates a data frame. Here we set the BinNumber variable to numbers 1-10
+                        "BinRange"=paste(lower_br, upper_br, sep="-"), #BinRange is the lower and upper breaks separated by a -. This will give you the output that looks like 100-1,000
+                        "Count"=as.numeric(table(pop_freq)), # Count we transform the table pop_freq into numbers
+                        "States"=state_abb) # Plug in the state abbreviations
+ascii(pop_table, include.rownames=FALSE, digits=c(0, 0, 0, 0), align=c("l", "r", "r", "l"), # ascii
+      caption="A frequency table of population by state.")
+
+```
+
+When choosing bin size, keep in mind that if the bins are too large, you might lose importatn features. Bins that are too small result in a representation that is too granular.
+
+#### Histograms
+Histograms are how we visualize frequency tables. The bins are on the x-axis with the counts on the y-axis.
+
+``` {r}
+hist(state$Population, breaks=breaks)
+```
+Conventions:
++ Empty bins are included in the graphs
++ Bins are equal width
++ The number of bins is up to the user
++ Bars are contiguous (no empty spaces between bars, unless there's empty bins)
+
+*Skewness* refers to whether the data in is skewed towards larger or smaller values.
+The above histogram skews right because the tail (lower values) are on the right side.
+
+#### Density Plots and Estimates
+Density plot is essentially a smoothed out histogram. Usually it's compute directly from the data (rather than by the user)
+
+```{r}
+hist(state$Murder.Rate, freq=FALSE) # set freq=FALSE so that it shows density instead of raw counts
+lines(density(state$Murder.Rate, lwd=3, col='blue')) #lines() is a function that takes coordinates and joins them in a line. density() is the function call for a density plot. lwd=3 is the type and line width argument for the lines() function. col='blue' sets the color to blue.
+```
+---
+## 1.8 Exploring Binary and Categorical Data
+Binary or categorical data is data that only has two options. Yes/no, true/false, etc.
+
+#### Bar Charts
+Useful for displaying a single categorical variable. <br>
+Categories are listed on the x-axis, frequencies or proportions are on the y-axis.<br>
+Similar to a histogram, but in a histogram gaps between bars signifies empty bins. Alternatively, bar charts usually show the bars separate from each other.
+This can also be converted into a pie chart, but those are more difficult to read
+
+``` {r}
+barplot(as.matrix(dfw)/6, cex.axis=0.8, cex.names = 0.7, xlab = 'Cause of Delay', ylab='Count') # asmatrix() converts a dataframe into a matrix. the count is divided by 6 so that the x-axis numbers are readable. cex.axis=# and cex.names=# make the x and y axis labels larger or smaller. xlab & ylab stand for x-axis label and y-axis label, respectively.
+
+```
+
+#### Mode
+The value that appears more often in the data. Usually only used for categorical data and not for numeric data
+
+##### Expected Value
+*Expected Value* is a type of weighted mean. <br>
+It's calculated by:
+1. Multiply each outcome by the probability of its occurance
+2. Sum the values
+
+```
+Example:
+Say you think 5% of people will vote yes to institute a flat tax of $250/month to fund community services program. You think that 10% will vote yes for a flat tax of $50 month to fund the same programs, and 85% will vote no
+
+Expected Value = *EV* = (0.05)(250) + (0.10)(50) + (0.85)(0) = 17.5 <br>
+You could expect to earn $17.50/month from the flat tax.
+```
+
+#### Probability
+*Probability* is the proportion of times x will occur if the event were to happen repeatedly.<br>
+
+If there is a 2-to-1 chance of something happening, then it is 2/(2+1) = 2/3 chance.
+---
+
+## 1.9 Correlation
+Generally, *correlation* is whether two variables are related to one another. <br>
+*Positive correlation* is when high (or low) values of B go with high (or low) values of A.
+*Negative correlation* is when low values of B go with high values of A, or vice versa.
+
+![Scatterplots showing correlation from spss-tutorials.com](images/Chapter 1 - Correlation.png)
+
+
+In the above image the top right, bottom left, bottom right, and middle images show positive correlation. The middle left, middle right, and bottom middle images show negative correlation. The correlation number at the top of each graph shows the strength of the correlation.
+
+Name | Definition | Equation
+------------- | ------------- | ------------- |
+*(Pearson's) Correlation Coefficient:* | estimate of the correlation between two variables that is always on the same scale. This allows your to compare the strength of the correlation across research projects. | $r =\displaystyle \frac {\sum_{i=1}^{n} (x_i-\bar{x})(y_i-\bar{y})} {(n-1)s_xs_y}$
+
+Correlation always lies between -1 and 1. -1 is perfect negative correlation, 1 is perfect positive correlation. 0 is no correlation.
+The correlation coefficient is generally only useful if the association between the two variables are linear.

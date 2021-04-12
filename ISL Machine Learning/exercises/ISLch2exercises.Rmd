@@ -1,0 +1,59 @@
+---
+title: "ISL Chapter 3 Exercises"
+author: "Liz"
+date: "4/3/2021"
+# output:
+#   html_notebook:
+#     highlight: haddock
+# runtime: shiny
+---
+
+# Chapter 3: Exercises
+Name | Content
+------------- | -------------
+TYPE | Exercises
+BOOK | An Introduction to Statistical Learning
+AUTHORS | Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani
+PUBLISHER | Springer
+
+**///////////////////////////////////////////////////////// Note: /////////////////////////////////////////////////////////**
+<br>
+The .Rmd file was written and compiled using the Atom.io text editor. If you download the .Rmd file and try to open it in R Studio the LaTeX equations *will not* display properly. This has a easy fix: delete the spaces between the dollar signs ($).
+<br><br>
+Unfortunately, the R code chunks will not run properly in R Studio when downloading this .Rmd file. That is because the parameters listed inside the curly braces, {}, are incorrect. This fix is a little more time intensive, but is possible. For R studio the parameters take the form:
+
++ {r loaddata, attr.source='.numberLines'}
+
+For Atom (using the Hydrogen and markdown-preview-enhanced packages), the paramaters take the form:
+
++ {r id="loaddata", .line-numbers}
+
+a useful guide for using R in Atom can be found here: [R in Atom](https://jstaf.github.io/2018/03/25/atom-ide.html)
+
++ how to use Atom with Rmarkdown: [Rmarkdown in Atom](https://shd101wyy.github.io/markdown-preview-enhanced/#/)
+
+why? Atom has native [Github](github.io) integration, the interface is cleaner, and you're represented by an adorable [octocat](https://myoctocat.com/).You don't need to use Atom. In this repo I've also included the PDF version of these notes. :)
+<br>
+**///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////**
+
+
+
+
+
+### ISL Chapter 3: Exercises
+
+You'll have to load the libraries library("ISLR") and library("MASS").
+The latter package needs to be installed first. You only need to install the package once.
+
+``` r {.line-numbers  cmd="Rscript" id="load_data" args="--save"}
+#install.packages("ISLR")
+
+## load libraries
+library("MASS")
+library("ISLR")
+
+fix(Boston) # the fix() function allows you to edit an R object
+names(Boston) # this will return the column names
+```
+#### simple linear models
+In R linear regressions take the form: $ lm(y~x, data) $

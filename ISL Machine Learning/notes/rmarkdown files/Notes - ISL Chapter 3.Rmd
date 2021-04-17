@@ -8,6 +8,7 @@ date: "4/3/2021"
 # runtime: shiny
 ---
 
+
 # Chapter 3
 Name | Content
 ------------- | -------------
@@ -24,9 +25,9 @@ Unfortunately, the R code chunks will not run properly in R Studio when download
 
 + {r loaddata, attr.source='.numberLines'}
 
-For Atom (using the Hydrogen and markdown-preview-enhanced packages), the paramaters take the form:
+For Atom (using the Hydrogen and markdown-preview-enhanced packages), the parameters take the form:
 
-+ {r id="loaddata", .line-numbers}
++ r {cmd="Rscript", id="loaddata", .line-numbers}
 
 a useful guide for using R in Atom can be found here: [R in Atom](https://jstaf.github.io/2018/03/25/atom-ide.html)
 
@@ -35,18 +36,20 @@ a useful guide for using R in Atom can be found here: [R in Atom](https://jstaf.
 why? Atom has native [Github](github.io) integration, the interface is cleaner, and you're represented by an adorable [octocat](https://myoctocat.com/).You don't need to use Atom. In this repo I've also included the PDF version of these notes. :)
 <br>
 **///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////**
-```{r id="loaddata", .line-numbers}
+```r {cmd="Rscript", id="loaddata", .line-numbers}
 # the data from the book can be downloaded using install.packages("ISLR"). It's then loaded using the line below.
 library(MASS)
 
 ```
+
+
 *Linear Regression* is a simple approach to supervised learning.
 
 + useful for predicting a quantitative response.
 + used as basis for more advanced statistical learning methods.
 
 ##### Some important questions to ask:
-1. Is there a relationship betwen $ X $ and $ Y $?
+1. Is there a relationship between $ X $ and $ Y $?
 2. How strong is the relationship between $ X $ and $ Y $?
 3. Which predictor ($ X $) contributes to the response, $ Y $?
 4. How accurately can we estimate the effect of each predictor $ X $ on response, $ Y $?
@@ -59,8 +62,8 @@ library(MASS)
 
 + it assumes there is a linear relationship between $X$ and $Y$.
 + its equation is: $ Y \approx \beta_0 + \beta_1X $.
-+ where $\approx$ means "is approximately modeled as."
-+ also refered to as: *regressing $Y$ on $X$*
++ where $ \approx $ means "is approximately modeled as."
++ also referred to as: *regressing $ Y $ on $ X $*
 + *e.g.* **partisanship** $ \approx \beta_0 + \beta_1 \times education) $
 + $ \beta_0 $ & $ \beta_1 $ are unknown constants. They represent the model's *coefficients* or *parameters.*
 + $ \beta_0 $ is the intercept. and $ \beta_1 $ is the slope.
@@ -74,7 +77,7 @@ library(MASS)
 Since $ \hat{\beta_0} $ and $ \hat{\beta_1} $ are unknown, we use data to estimate the coefficients.
 
 + $ (x_1,y_1),(x_2,y_2),...(x_n,y_n) $ are $ n $ number of observation pairs that contain observations for $ X $ & $ Y $.
-+ the goal of linear regression is to get the intercept $ (\hat{\beta}_0) $ and slope $ (\hat{\beta}_1) $ to be as close as possible to the datapoints we have.
++ the goal of linear regression is to get the intercept $ (\hat{\beta}_0) $ and slope $ (\hat{\beta}_1) $ to be as close as possible to the data points we have.
 + There are lots of ways to determine how close our model fits the data, but the most common is to minimize the *least squares.*
 + $ \hat{y} = \beta_0 + \beta_1x_i $ is the prediction for $ Y $ based on the $ i $th value of $ X $.
 + $ e_i = y_i - \hat{y} $ is the residual.
@@ -89,7 +92,7 @@ Since $ \hat{\beta_0} $ and $ \hat{\beta_1} $ are unknown, we use data to estima
 
 
 #### 3.1.2 Assessing the Accuracy of the Coefficient Estimates
-If $ f $ is a linear function: $ Y =\beta_0 \beta_1 X + \epsilon $
+If $ f $ is a linear function: $ Y =\beta_0 + \beta_1 X + \epsilon $
 
 + This is the *population regression line*
 + $ \beta_0 $ is the intercept ($ Y $ when $ X $ is 0)
@@ -127,13 +130,13 @@ If $ f $ is a linear function: $ Y =\beta_0 \beta_1 X + \epsilon $
 + Standard errors help us determine whether $ \hat{\beta}_1 $ is sufficiently far away from zero to be confident that $ \beta_1 $ is non-zero.
   + if $ \beta_1 $ is not zero, then there is a relationship between $ X $ and $ Y $.
 + If $ SE(\hat{\beta_1}) $ is small, then relatively small values of $ \hat{\beta_1} $ may provide evidence that $ \beta_0 \neq 0 $
-+ if $ SE(\hat{\beta_1}) $ is large, then $ \hat{\beta_1} $ must be larve in absolute value in order to reject the null hypothesis.
++ if $ SE(\hat{\beta_1}) $ is large, then $ \hat{\beta_1} $ must be large in absolute value in order to reject the null hypothesis.
 + *t-statistic:* measures the number of standard deviations that $ \hat{\beta_1} $ is from 0.
   + $ t = \frac {\hat{\beta_0} - 0} {SE(\hat{\beta_1})} $
   + If there is no relationship between $ X $ and $ Y $, the *t-statistic* will have a *t*-distribution with *n-2* degrees of freedom.
   + For values of $ n $ that are $ \approx $ 30, the *t*-distribution will resemble a normal bell curve.
 + *p-value:* probability of observing any number equal to |*t*| or larger in absolute value, assuming $ \beta_1 = 0 $
-  + A small p-value indicates that it's unlikely that the association we see between the predictor, $ X $, and the response, $ Y $ is due to chance, in the absese of any real association between the predictor and the response.
+  + A small p-value indicates that it's unlikely that the association we see between the predictor, $ X $, and the response, $ Y $ is due to chance, in the absence of any real association between the predictor and the response.
   + Thus, small p-value means there's likely an association between the predictor, $ X $, and the response, $ Y $.
   + Meaning we can *reject the null hypothesis.*
   + Usually, the p-value should be 0.05 or 0.01 (5 and 1% respectively)  to reject the null hypothesis.
@@ -164,7 +167,7 @@ The $ R^2 $ statistic is an alternative measure of fit.
   + $ TSS = \sum(y_1 - \bar{y})^2 $
   + $ TSS $ is the total sum of squares.
     + $ TSS $ measures the total variance in the response, $ Y $. Essentially, it's the variance inherent in the response before the regression is performed.
-  + the $ RSS $ is the amount of variability that's left unexplaned after performing the regression.
+  + the $ RSS $ is the amount of variability that's left unexplained after performing the regression.
   + So $ TSS $ - $ RSS $ measures the amount of variability in the response that is explained by the regression.
 + $ R^2 $ measures the proportion of variability in $ Y $ that can be explained using $ X $. (*e.g.,* how much of a person's partisanship can be explained by their education level.)
 + An $ R^2 $ closer to 1 indicates a large proportion of the variability in the response has been explained by the regression.
@@ -184,7 +187,7 @@ The $ R^2 $ statistic is an alternative measure of fit.
 + The first step in multiple regression models is to compute the *F-statistic* and examine its *p-value.*
 + each predictor ( $ p $ ) is given a separate slope coefficient ( $ \beta $ ).
 + $ Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + ... + \beta_pX_p + \epsilon $
-  + Where $ p $ is a standin for the number of predictors there are.
+  + Where $ p $ is a stand-in for the number of predictors there are.
 
 #### 3.2.1 Estimating the Regression Coefficients
 
@@ -196,7 +199,7 @@ Like linear regression, the regression coefficients $ \beta_0 + \beta_1X_1 + \be
   + $ RSS = \displaystyle \sum_{i=1}^{n}(y_i -\hat{y}_i)^2 $
     + $ = \displaystyle \sum_{i=1}^n(y_i - \hat{\beta_0} - \hat{\beta_1} x_{i1} - \hat{\beta_2}x_{x2} - ... - \hat{\beta_p}x_{ip})^2 $
   + These: $ \hat{\beta_0} + \hat{\beta_1} + ... + \hat{\beta_p} $ are the multiple least squares coefficient estimates
-  + Each coefficient is interpreted as holding the other coeffs as fixed. For example, if you have three predictors education, salary, and age. Let's say that you increase someone's salary by 1,000 dollars. In a multiple regression, this represents the average effect of increasing a person's salary by 1,000 dollars while holding education and age as fixed.
+  + Each coefficient is interpreted as holding the other coefficients as fixed. For example, if you have three predictors education, salary, and age. Let's say that you increase someone's salary by 1,000 dollars. In a multiple regression, this represents the average effect of increasing a person's salary by 1,000 dollars while holding education and age as fixed.
 + If your correlation coefficient for salary is significant when running a simple linear regression, but isn't significant when running a multiple regression model it demonstrates that your salary variable may not actually be predictive of your partisanship.
 
 ##### 3.2.2 Some Important Questions
@@ -259,7 +262,7 @@ After determining that there is a relationship between at least one of the predi
     + $ R^2 $ can be used to assess multiple regression model fit in the same way that it can be used for simple linear models (described above).
     + The $ RSE $ is different. It is:
       + $ RSE = \sqrt {\frac{1}{n-p-1}RSS} $
-    + Graphic the model is useful to see paterns that cannot be observed in numbers alone.
+    + Graphic the model is useful to see patterns that cannot be observed in numbers alone.
       + Sometimes graphing a model will show that there is *synergy* or *interaction* effects between the predictors that mean that increasing one (*e.g.* education) also increases the other (*e.g.* income) which have a double effect on the response, (*e.g.* partisanship)
 4. Predictions
     + We can use the prediction equation $ \hat{y} = \hat{\beta_0} + \hat{\beta_1}x_1 + \hat{\beta_2}x_2 + ... + \hat{\beta_p}x_p $ to use the fitted multiple regression model for prediction.
@@ -403,10 +406,10 @@ To include an interaction term, the model looks like this:
       + $ h_i $ will increase as the distance from $ x_i $ and $ \bar{x} $ increases.
 
 6. Collinearity
-    + *Collinearity:* is when two or more predictor varaibles are closely related to one another.
+    + *Collinearity:* is when two or more predictor variables are closely related to one another.
     + If two predictors are *collinear* it's difficult to separate out which one is actually associated with the response.
       + *e.g.* if education and income are *collinear* and we want to know how these affect partisanship, it will be difficult to determine whether it is income that increases partisanship or whether it is the effect of education.
-    + Collinearity reduces the accuracy of the estimates of the regression coefficients, causing the standard error to grow. In turn, since the *f-statistic* is based on the stanard error, collinearity decreases the *t-statistic.*
+    + Collinearity reduces the accuracy of the estimates of the regression coefficients, causing the standard error to grow. In turn, since the *f-statistic* is based on the standard error, collinearity decreases the *t-statistic.*
       + This reduces the *power* of the hypothesis test (i.e. the probability of correctly detecting a non-zero coefficient and rejecting the null hypothesis) is reduced.
     + You should look for collinearity when fitting the model.
       + Look at a correlation matrix of the predictors.
@@ -431,11 +434,51 @@ One of the best non-parametric methods is *K-Nearest Neighbors Regression (KNN r
   + (From section 2.2.2): the *bias-variance tradeoff* requires a low variance as well as a low squared bias.
 + A small $ K $ value is more flexible which will have low bias but high variance.
 + A high $ K $ value will have a smother and less variable fit, because changing one observation will have a smaller effect. However, this might result in high bias because it will mask the structure of $ f(X) $
-+ adding demensions generally causes *KNN* to perform worse, because it reduces the sample size.
-  + Essentially, in order to find a nearest neighbor, *KNN* would have to have more datapoints on which to find a neighbor thus reducing the sample size.
++ adding dimensions generally causes *KNN* to perform worse, because it reduces the sample size.
+  + Essentially, in order to find a nearest neighbor, *KNN* would have to have more data points on which to find a neighbor thus reducing the sample size.
   + In highly dimensional data it would results in an observation having no *nearby neighbor,* which is the *curse of dimensionality.*
 
 Using a *parametric* approach is better than a *non-parametric* approach if the *parametric* form that has been selected is close to the true form of $ f(X) $.
 
   + *parametric* models will do better than *non-parametric* methods when there's a small number of observations per predictor.
-  + Linear models are also easier to interpret, so we might give up some fit for interpretibility.
+  + Linear models are also easier to interpret, so we might give up some fit for interpretability.
+
+## ///////// All the knowledge, very little math /////////
+Basic linear equation: $ Y = \beta_0 + \beta_1X + \epsilon $
+
+#### Step one: Is there a relationship between the predictor and the response?
+1. Linear models are all about estimating values for $ \hat{\beta}_0 $ (intercept) and $ \hat{\beta}_1 $ (slope) so that the model fits the predictors as close as possible.
+2. $ \beta_1 $ is the average increase in the response, $ Y $, associated with a one-unit increase in $ X $.
+    + *e.x.* $ partisanship = \beta_0 + \beta_1 \times education + \epsilon $
+    + Here, for every one unit increase in $ education $ we would see a $ \beta_1 $ increase in $ partisanship $.
+3. One the model is fit, we want to know how well it's mirroring reality by looking closely at the errors: $ \epsilon $
+    + For linear models, $ \epsilon $ is assumed to be independent of $ X $
+4. We can calculate the *standard error* ( $ SE $ ) to determine the average amount that the population mean ( $ \hat{\mu} $ ) is from reality.
+    + *standard error* can also be used on $ \beta_0 $ and $ \beta_1 $
+    + *standard error* will always become smaller as the number of observations gets bigger.
+    + *standard error* also tells us if $ \hat{\beta_1} $ is sufficiently far away from 0 to say that there is a relationship between the predictors ( $ X $ ) and the response ( $ Y $ ).
+5. *t-statistic* measures the number of standard deviations that $ \hat{\beta_1} $ is from 0.
+    + the *t-statistic* is used with the *p-value.*
+    + it is based on the standard error $ SE $
+    + the greater the *t-statistic,* the more evidence your results are significantly different from the average.
+    + the smaller the *t-statistic,* the more evidence that your results are not significantly different from the average.
+6. *p-value* is the odds that the result you observed happened by chance.
+    + the smaller the *p-value* means there's likely a relationship between the predictor and response (since it's unlikely to have occurred by chance)
+    + Usually a *p-value* of 0.05 or 0.01 (5 and 1 %, respectively) mean we can reject the *null hypothesis.*
+
+#### Step two: How well does the model fit the data?
+7. *Residual standard error,* $ RSE $, tells us how well the model fits the data.
+    + It is based on the $ RSS $.
+    + If it's 0, your model is probably overfit.
+    + $ RSE $ is also used to compute *confidence intervals.*
+      + *Confidence intervals* tell us how confident we can be that the estimated interval contains the parameter's real value.
+    + *e.g.* a prediction of $ partisanship $ on the basis of $ education $ will be off by the $ RSE $ amount.
+    + It is measured in $ Y $ units, so it's hard to know what a good $ RSE $ is.
+8. $ R^2 $ is the proportion of the variance explained by the model.
+    + *e.g.* how much of a person's $ partisanship $ can be explained by their $ education $ level.
+    + It always lies between 0 and 1.
+    + The closer to 1 the better.
+    + It is independent of $ Y $.
+    + Uses the *residual sum of squares*, $ RSS $ and the *total sum of squares,* $ TSS $
+9. *Residual sum of squares,* $ RSS $, is the amount of variability that's left unexplained after performing the regression.
+10. *Total sum of squares,* $ TSS $, measures the total variance in the response ( $ Y $ ).

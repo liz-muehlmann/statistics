@@ -156,6 +156,127 @@ More flexible models include *thin plate splines* can generate a wider range of 
 ### 2.1.4 Supervised vs. Unsupervised Learning
 *Supervised Learning* for each observation of the predictor measurements $ x_i, i=1,...,n $ there is an associated response to the measurement $ y_i $.
 
+  + Includes: logistic regression, GAM, Boosting, and support vector machines
+
 *Unsupervised Learning* is more complicated because for every observation $ i=1,...,n $ there's a vector of measurements $ x_i $, but no associated response $ y_i $.
 
 + it is called unsupervised because we have no response variable $ y $ to supervise our analysis.
+  + Includes: cluster analysis (do the observations fall into relatively distinct groups?)
+
+*Semi-supervised Learning* is when you have observations for the predictors, but the corresponding measurements for the responses are less available.
+
+### 2.1.5 Regression vs. Classification Problems
+*Quantitative Variables* are number variables.
+  + problems involving Quantitative data are called *regression problems.*
+
+*Qualitative Variables (aka categorical)* take on one of a number of *classes* or categories.
+  + problems involving Qualitative data are called *classification* problems.
+
+The difference between the two is not that clear cut and some methods (*K-nearest-neighbors* and *boosting*) can be used for both quantitative adn qualitative data.
+
+Most statistical methods are based on whether the *response* is qualitative or quantitative.
+
+## 2.2 Assessing Model Accuracy
+There is no *best* method in statistical learning. The data you have determines what kind of method you can (and should!) use.
+
+### 2.2.1 Measuring the Quality of Fit
+Measuring the quality of fit is a quantification of the extent to which the predicted response value for a given observation is close to the true response value of the observation.
+
+For regressions, the most common measure is the *mean squared error (MSE).*
+
+  + $ MSE = \frac {1}{n} \displaystyle \sum_{i=1}^{2}(y_i - \hat{f}(x_1)^2) $
+    + $ \hat{f}(x_i) $ is the prediction $ \hat{f} $ gives for the $ i $th observation.
+  + a small test $ MSE $ is the goal
+    + A small $ MSE $ means that the predicted responses are close to the true responses.
+  + We're interested in how well our method works with previously unseen data (*i.e.,* not the training data.)
+  + If we have training observations, which we use to fit obtain an estimate of $ \hat{f} $
+    + $ {(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)} $
+  + We then compute $ \hat{f}(x_1), \hat{f}(x_2), ..., \hat{f}(x_n) $
+    + If these are approximately equal to $ y_1, y_2, ..., y_n $ then the $ MSE $ is small.
+  + What we want to know is if $ \hat{f}(x_0) \approx y_0 $ where $ x_0 $ and $ y_0 $ is a previously unseen test observation *not used to train the statistical learning method.* Essentially, a new data point.
+    + This is the *test* $ MSE $ which is what we're interested in and the lower the better.
+  + For a large number of observations we can compute:
+    + $ Ave(y_0 - \hat{f}(x_0))^2 $
+    + The average squared prediction error for the test observations: $ (x_0, y_0) $
+    + The smaller the number the better
+  + DO NOT rely on a method that results in a small *training* $ MSE $ even though the *test* and *training* $ MSE $ are closely related because most methods try to make a small training $ MSE $ which does not always result in a small *test* $ MSE $.
+    + *Overfitting* Is a method that gives as small *training* $ MSE $ but a large *test* $ MSE $.
+      + It means that the method may be picking up patterns that are just random chance
+  + The *training* $ MSE $ will generally be smaller than the *test* $ MSE $.
+  + *Cross-Validation* is a method for estimating the *test* $ MSE $ using the training data.
+
+### 2.2.2 The Bias Variance Trade-Off
+The expected *test* $ MSE $ (for a given value, $ x_0 $) is the sum of three fundamental quantities:
+
+  1. The *variance* of $ \hat{f}(x_0) $
+  2. The squared *bias* of $ \hat{f}(x_0) $
+  3. The variance of the error terms $ \epsilon $.
+
+  + this is:
+    + $ E(y_0 - \hat{f}(x_0))^2 = Var(\hat{f}(x_0)) + [Bias(\hat{f}(x_))]^2 + Var(\epsilon) $
+      + Where $ E(y_0 -\hat{f}(x_0)) $ is the *expected* test $ MSE $.
+        + It is the average test $ MSE $ "we'd obtain if we repeatedly estimated $ f $ using a large number of training sets and tested each at $ x_0 $"
+  + The test $ MSE $ will never be below $ Var(\epsilon) $ (the irreducible error)
+  + Our goal is to have *low variance* and *low bias* through the *bias-variance tradeoff*
+    + *Variance:* the amount that $ \hat{f} $ would change if we estimated it using a different training data set.
+      + Ideally, we would not like $ \hat{f} $ to vary much between data sets.
+      + a high variance would mean that small changes in the training data results in large changes in $ \hat{f} $.
+      + More flexible methods will have higher variance.
+    + *Bias:* is the error that is introduced by approximating real life using a simple model.
+      + The closer real life is to the model used, the less bias there will be.
+      + More flexible methods tend to have less bias.
+
+### 2.2.3 The Classification Setting
+This refers to problems where the outcome of interest is qualitative ( $ y_1, ... y_n $)
+
+The most common way to quantify the accuracy of the estimate $ \hat{f} $ is training the *error rate* - which is the proportion of mistakes that are made if we apply the estimated $ \hat{f} $ to the training observations.
+
+*Training error rate* equation is computed using the data that was used to train the classifier.
+
+  + $ \frac {1}{n} \displaystyle \sum_{i=1}^{n}I(y_i \neq \hat{y}_i) $
+    + $ \hat{y}_1 $ is the predicted class label for the $ i $th observation using $ \hat{f} $
+    + $ I(y_i \neq \hat{y}_i) $ is an *indicator variable*
+      + $ y_i \neq \hat{y}_i $ is coded with a 1
+      + $ y_i = \hat{y}_i $ is coded with a 0
+      + if $ I(y_i \neq \hat{y}_i) = 0 $ then the $ i $th observation was classified correctly by the method, otherwise it was misclassified.
+
+We are still interested in the *test* error rate which is the error rate returned when we apply the classifier to test observations *not* used in training the data.
+
+  + The *test error* rate is:
+    + $ Ave(I(y_0 \neq \hat{y}_0)) $
+      + $ \hat{y}_0 $ is the predicted class label that results from applying the classifier to the test observation with predictor $ x_0 $
+
+  We want the test error to be the smallest - which indicates we have a good classifier.
+
+#### The Bayes Classifier
+The test error rate is minimized (on average) by a simple classifier that assigns each observation to the most likely class, given its predictor values.
+
+  + we should assign a test observation with predictor vector $ x_0 $ to the class $ j $ for which the below is the largest
+    + $ Pr(Y = j | X = x_0) $
+      + This is a *conditional probability* equation.
+      + It is the probability that $ Y = j $, given the observed predictor vector $ x_0 $
+
+This is *the Bayes classifier.* In a two-class problem it says that there are only two possible response values.
+
+  + it corresponds to predicting the first class if $ Pr(Y = 1 | X = x_0) > 0.5 $, and class two otherwise.
+  + The *Bayes decision boundary* is where the points have a probability of exactly 50%.
+    + The *Bayes classifier* is determined by this boundary.
+  + The *Bayes classifier* produces the *Bayes error rate* which is the lowest possible test error rate.
+    + The overall *Bayes Error Rate:* $ 1 - E(  m\underset{j}axPr(Y = j | X)) $
+      + where the expectation averages the probability over all possible values of $ X $
+      + It is analogous to the irreducible error.
+
+Since we will never know the conditional distribution of $ Y $ given $ X $ in a real data set, the *Bayes classifier* is an unattainable gold standard against which we compare other models.
+
+#### K-Nearest Neighbors
+Attempts to estimate the conditional distribution of $ Y $ given $ X $, then classifies a given observation to the class with the highest *estimated* probability.
+
+  + Given a positive integer $ K $ and a test observation $ x_0 $, $ KNN $:
+    1. Identifies the $ K $ points in the training data that are closest to $ x_0 $ (represented by $ \mathcal{N}_0 $)
+    2. Estimates the conditional probability for class $ j $ as a fraction of points in $ \mathcal{N}_0 $ whose response value equals $ j $.
+    + $ Pr(y = j | x = x_0) = \frac{1}{K} \underset{i\in\mathcal{N}_0}\sum I(y_i = j) $
+    3. Applies Bayes rule and classifies the test observation $ x_0 $ to the class with the largest possibility.
+  + The user picks the value for $ K $.
+    + A low $ K $ will produce a flexible model, but may have low bias but very high variance.
+    + The higher the $ K $, the less flexible the model, which will result in low variance but high bias.
+  + The *training* error and the *test* error do not have a strong relationship.  

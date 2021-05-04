@@ -42,7 +42,6 @@ library(MASS)
 
 ```
 
-
 *Linear Regression* is a simple approach to supervised learning.
 
 + useful for predicting a quantitative response.

@@ -1,0 +1,646 @@
+<!DOCTYPE html><html><head>
+      <title>Notes</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TYPE</td>
+<td>notes</td>
+</tr>
+<tr>
+<td>BOOK</td>
+<td>Practical Statistics for Data Scientists</td>
+</tr>
+<tr>
+<td>AUTHORS</td>
+<td>Peter Bruce, Andrew Bruce, &amp; Peter Gedeck</td>
+</tr>
+<tr>
+<td>PUBLISHER</td>
+<td>O'Reilly</td>
+</tr>
+</tbody>
+</table>
+<p>These are my notes from the above book. I wanted to learn statistics in more depth. I hope this helps you learn as well.<br>
+I * strongly * recommend that you purchase the book and work your way through it. It's well-written and easy to follow.</p>
+<div class="code-chunk" data-id="load_data" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=0, .line-numbers  cmd=&quot;Rscript&quot; id=&quot;load_data&quot; args=&quot;--save&quot;}" class="language-r line-numbers">state <span class="token operator">&lt;-</span> url<span class="token punctuation">(</span><span class="token string">"https://raw.githubusercontent.com/gedeck/practical-statistics-for-data-scientists/master/data/state.csv"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Data is available from:</span>
+<span class="token comment"># https://github.com/gedeck/practical-statistics-for-data-scientists/tree/master/data</span>
+
+<span class="token comment">#several libraries are used throughout the book. Be sure to install each package using install.packages("package-name") before calling it using the library() function</span>
+library<span class="token punctuation">(</span><span class="token string">"tidyverse"</span><span class="token punctuation">)</span> <span class="token comment">## useful for data manipulation</span>
+
+<span class="token comment"># other packages used</span>
+
+library<span class="token punctuation">(</span><span class="token string">"ggplot2"</span><span class="token punctuation">)</span> <span class="token comment">## makes graphs easier and prettier</span>
+library<span class="token punctuation">(</span><span class="token string">"vioplot"</span><span class="token punctuation">)</span> <span class="token comment">## used to customize violin plots</span>
+library<span class="token punctuation">(</span><span class="token string">"ascii"</span><span class="token punctuation">)</span> <span class="token comment">## exports R objects to several markup languages</span>
+library<span class="token punctuation">(</span><span class="token string">"corrplot"</span><span class="token punctuation">)</span> <span class="token comment">## graphical display of a correlation matrix</span>
+library<span class="token punctuation">(</span><span class="token string">"descr"</span><span class="token punctuation">)</span> <span class="token comment">## useful for descriptive statistics</span>
+library<span class="token punctuation">(</span><span class="token string">"matrixStats"</span><span class="token punctuation">)</span> <span class="token comment"># used for Weighted Mean</span>
+
+<span class="token comment"># All code chunk are in the R language.</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><h2 class="mume-header" id="11-elements-of-structured-data">1.1 Elements of Structured Data</h2>
+
+<h4 class="mume-header" id="numeric-data">Numeric Data:</h4>
+
+<ul>
+<li>data that are expressed on a numeric scale</li>
+<li><em>Continuous</em> - (wind speed, time)</li>
+<li><em>Discrete</em> - Count of how many times something occurs (score, number of events)</li>
+</ul>
+<h4 class="mume-header" id="categorical">Categorical:</h4>
+
+<ul>
+<li>takes a fixed set of values (type of tv, state name)</li>
+<li><em>Binary</em> - only takes one of two values (yes/no, 1/0, true/false)</li>
+<li><em>Ordinal</em> - categories are ordered (ratings)</li>
+</ul>
+<p>Knowing the data type is useful for:</p>
+<ul>
+<li>visualizing data</li>
+<li>data analysis</li>
+<li>statistical modeling</li>
+</ul>
+<p>-- When R imports using read.csv it automatically converts text colums to <em>factors.</em> This means the only allowable values for that column are the original ones. Adding a new text value will result in a warning and the datatype being set to NA.</p>
+<hr>
+<h2 class="mume-header" id="12-rectangular-data">1.2 Rectangular Data</h2>
+
+<ul>
+<li>Two-dimensional matrix with rows indicating cases &amp; columns indicating variables</li>
+<li><em>data frame</em> is specific to R and Python (aka spreadsheet)</li>
+<li>In R, basic rectangular data structure is a <code>data.frame</code> object. It has an implicit integer index based on row order. User can create a custom key using <code>row.names</code> attribute.</li>
+<li>useful packages <code>data.table</code> and <code>dplyr</code></li>
+</ul>
+<h4 class="mume-header" id="other-data-types">other data types</h4>
+
+<ul>
+<li>time series: measurements of the same variable over time.</li>
+<li>spatial data structures: in the <em>object</em> view the data is an object (ex. house) and its spatial coordinates. In the <em>field</em> view, the focus is on small units of space and the value of a relevant metric (ex. pixel brightness).</li>
+<li>graph/network: physical, social, and abstract relationships.</li>
+</ul>
+<h2 class="mume-header" id="13-estimates-of-location">1.3 Estimates of Location</h2>
+
+<p>First step is to get a "typical value" for each variable. This is an estimate of where most of the data is located.<br>
+Useful when you want a single number to describe the location or variablity of the data</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> or <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> refers to the total number of observations. Where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> refers to the entire population and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> is a sample from the population.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Calculated By</th>
+<th>Misc. Info</th>
+<th>Equation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean</td>
+<td>Average value. Taking the sum of all the values and <br> dividing it by the total number of values</td>
+<td>Most basic estimate of  data location</td>
+<td>mean = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>x</mi><mo>ˉ</mo></mover><mo>=</mo><mstyle scriptlevel="0" displaystyle="true"><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub></mrow><mi>n</mi></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\bar{x} =\displaystyle \frac {\sum_{i=1}^{n} x_{i}} n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.56778em;vertical-align:0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.56778em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">x</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">ˉ</span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.180002em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.494002em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.6897100000000003em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></td>
+</tr>
+<tr>
+<td>Trimmed Mean</td>
+<td>Dropping a fixed number of sorted values at each end <br> then taking the average of the remaining values</td>
+<td>Eliminates the influence of extreme values (usually top/bottom 10%). Compromise between Mean &amp; Median, because it's robust to extreme values, but uses more data to calculate the estimate for location.</td>
+<td>trimmed mean = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>x</mi><mo>ˉ</mo></mover><mo>=</mo><mstyle scriptlevel="0" displaystyle="true"><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mi>p</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>n</mi><mo>−</mo><mi>p</mi></mrow></munderover><msub><mi>x</mi><mrow><mo stretchy="false">(</mo><mi>i</mi><mo stretchy="false">)</mo></mrow></msub></mrow><mrow><mi>n</mi><mo>−</mo><msub><mn>2</mn><mi>p</mi></msub></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\bar{x} =\displaystyle \frac {\sum_{i=p+1}^{n-p} x_{(i)}} {n-2_p}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.56778em;vertical-align:0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.56778em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">x</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">ˉ</span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.7091570000000003em;vertical-align:-0.972108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.7370490000000003em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.825818em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.911231em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mathnormal mtight">p</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029000000000005em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight">p</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.34480000000000005em;"><span style="top:-2.5198em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight">i</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3551999999999999em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.972108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></td>
+</tr>
+<tr>
+<td>Weighted Mean</td>
+<td>Multiply each data value <code>x_i</code> by a user-specified weight <br> <code>w</code> and dividing their sum by the sum of the weights</td>
+<td>Some values are more variable, so are given a lower <br>weight. Data we collected may not be representative, so we may give higher weight to certain values.</td>
+<td>weighted mean = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover accent="true"><mi>x</mi><mo>ˉ</mo></mover><mi>w</mi></msub><mo>=</mo><mstyle scriptlevel="0" displaystyle="true"><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>w</mi><mi>i</mi></msub><msub><mi>x</mi><mi>i</mi></msub></mrow><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>w</mi><mi>i</mi></msub></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\bar{x}_w =\displaystyle \frac {\sum_{i=1}^{n} w_{i}x_{i}} {\sum_{i=1}^{n} w_{i}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.71778em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.56778em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">x</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">ˉ</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.488004em;vertical-align:-0.994002em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.494002em;"><span style="top:-2.305708em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.6897100000000003em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.994002em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 class="mume-header" id="14-median-and-robust-estimates">1.4 Median and Robust Estimates</h2>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Calculated by</th>
+<th>Misc. Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Median</td>
+<td>Order the data from lowest to highest. The middle value is the median. If there is no median value, the <br> median is the average of the two most middle value.</td>
+<td>Not sensitive to outliers</td>
+</tr>
+<tr>
+<td>Weighted Median</td>
+<td>Each value in the dataset is given a weight, the data is sorted, then the weighted median is calculated so that the sum of the weights is equal for the lower and upper halves of the sorted list.</td>
+<td></td>
+</tr>
+<tr>
+<td>Outliers</td>
+<td></td>
+<td>Extreme values in the dataset. Often the result of data errors.</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="example-location-estimates-of-population-and-murder-rates">Example: Location Estimates of Population and Murder Rates</h2>
+
+<div class="code-chunk" data-id="code-chunk-id-1" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=1, .line-numbers  cmd=&quot;Rscript&quot; continue=&quot;load_data&quot; args=&quot;--save&quot;}" class="language-r line-numbers">  mean<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">)</span>
+  mean<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">)</span>
+  median<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">)</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><hr>
+<h2 class="mume-header" id="15-estimates-of-variability-dispersion">1.5 Estimates of Variability (Dispersion)</h2>
+
+<p>Measures whether the data is tightly clustered or spread out.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Definition</th>
+<th>Synonyms</th>
+<th>Equation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deviations</td>
+<td>The difference between the observed values and the estimate of location</td>
+<td>Errors, residuals</td>
+<td>Usually calculated using Mean Absolute Deviation. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>e</mi><mi>a</mi><mi>n</mi><mi>A</mi><mi>b</mi><mi>s</mi><mi>o</mi><mi>l</mi><mi>u</mi><mi>t</mi><mi>e</mi><mi>D</mi><mi>e</mi><mi>v</mi><mi>i</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo>=</mo><mstyle scriptlevel="0" displaystyle="true"><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mrow><mo fence="true">∣</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover accent="true"><mi>x</mi><mo>ˉ</mo></mover><mo fence="true">∣</mo></mrow><mn>2</mn></msup></mrow><mi>n</mi></mfrac></mstyle></mrow><annotation encoding="application/x-tex">Mean Absolute Deviation = \displaystyle \frac {\sum_{i=1}^{n} \left\lvert x_i -\bar{x}\right\rvert^2} {n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal">e</span><span class="mord mathnormal">an</span><span class="mord mathnormal">A</span><span class="mord mathnormal">b</span><span class="mord mathnormal">so</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">u</span><span class="mord mathnormal">t</span><span class="mord mathnormal">eDe</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">ia</span><span class="mord mathnormal">t</span><span class="mord mathnormal">i</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.329718em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6437180000000002em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.6897100000000003em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="minner"><span class="mopen delimcenter" style="top:0em;">∣</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.56778em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">x</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">ˉ</span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">∣</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.954008em;"><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></td>
+</tr>
+<tr>
+<td>Variance</td>
+<td>The sum of squared deviations from the mean divided by n-1 where n is the number of data values</td>
+<td>mean-squared-errors</td>
+<td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mi>a</mi><mi>r</mi><mi>i</mi><mi>a</mi><mi>n</mi><mi>c</mi><mi>e</mi><mo>=</mo><msup><mi>s</mi><mn>2</mn></msup><mo>=</mo><mstyle scriptlevel="0" displaystyle="true"><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover accent="true"><mi>x</mi><mo>ˉ</mo></mover><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">variance = s^2 = \displaystyle \frac {\sum_{i=1}^{n} (x_i -\bar{x})^2} {n-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">ian</span><span class="mord mathnormal">ce</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.273148em;vertical-align:-0.7693300000000001em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.5038179999999999em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.6897100000000003em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.56778em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">x</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">ˉ</span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693300000000001em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></td>
+</tr>
+<tr>
+<td>Standard Deviation</td>
+<td>Easier to interpret than Variance because it's on the same scale as the data. Square root of the variance.</td>
+<td></td>
+<td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>t</mi><mi>a</mi><mi>n</mi><mi>d</mi><mi>a</mi><mi>r</mi><mi>d</mi><mi>D</mi><mi>e</mi><mi>v</mi><mi>i</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo>=</mo><msqrt><mrow><mi>v</mi><mi>a</mi><mi>r</mi><mi>i</mi><mi>a</mi><mi>n</mi><mi>c</mi><mi>e</mi></mrow></msqrt></mrow><annotation encoding="application/x-tex">Standard Deviation = \sqrt{variance}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">St</span><span class="mord mathnormal">an</span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">d</span><span class="mord mathnormal">De</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">ia</span><span class="mord mathnormal">t</span><span class="mord mathnormal">i</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.04em;vertical-align:-0.12524000000000002em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.91476em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">ian</span><span class="mord mathnormal">ce</span></span></span><span style="top:-2.87476em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"></path></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.12524000000000002em;"><span></span></span></span></span></span></span></span></span></td>
+</tr>
+</tbody>
+</table>
+<p>Where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>x</mi><mo>ˉ</mo></mover></mrow><annotation encoding="application/x-tex">\bar{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.56778em;vertical-align:0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.56778em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">x</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">ˉ</span></span></span></span></span></span></span></span></span></span> is the sample mean. <br><br>
+<em>Degrees of Freedom:</em> the number of degrees of freedom is the number of values in the final calculation of a statistic that are free to vary. For this reason, in the Variance equation, using <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> will result in a biased estimate because you will underestimate the true value of the variance and standard deviation. Using <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> will result in an unbiased estimate because it accounts for the one constratint on the data: the standard deviation (which depends on calculating the sample mean.)<br>
+<br><br>
+Deviations, Variance, and Standard Deviation are all sensitive to outliers. An estimate that is not sensitive to outliers is the <em>median absolute deviation from the median (MAD)</em> = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mo stretchy="false">(</mo><mrow><mo fence="true">∣</mo><msub><mi>x</mi><mn>1</mn></msub><mo>−</mo><mi>m</mi><mo fence="true">∣</mo></mrow><mo separator="true">,</mo><mrow><mo fence="true">∣</mo><msub><mi>x</mi><mn>2</mn></msub><mo>−</mo><mi>m</mi><mo fence="true">∣</mo></mrow><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mrow><mo fence="true">∣</mo><msub><mi>x</mi><mi>N</mi></msub><mo>−</mo><mi>m</mi><mo fence="true">∣</mo></mrow></mrow><annotation encoding="application/x-tex">Median(\left\lvert x_1-m \right\rvert, \left\lvert x_2-m \right\rvert, ... \left\lvert x_N-m \right\rvert</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal">e</span><span class="mord mathnormal">d</span><span class="mord mathnormal">ian</span><span class="mopen">(</span><span class="minner"><span class="mopen delimcenter" style="top:0em;">∣</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal">m</span><span class="mclose delimcenter" style="top:0em;">∣</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">∣</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal">m</span><span class="mclose delimcenter" style="top:0em;">∣</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">...</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">∣</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal">m</span><span class="mclose delimcenter" style="top:0em;">∣</span></span></span></span></span>) where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span> is the median.</p>
+<hr>
+<h2 class="mume-header" id="16-estimates-based-on-percentiles">1.6 Estimates Based on Percentiles</h2>
+
+<p>Statistics is based on ranked data.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Definition</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Range</td>
+<td>Difference between the largest and smallest numbers.</td>
+<td>Sensitive to outliers.</td>
+</tr>
+<tr>
+<td>Percentiles</td>
+<td>a percentile is a score below which a given percentage of <br>scores in its frequency distribution fall or a score at or below which a given percentage fall.</td>
+<td>Not sensitive to outliers</td>
+</tr>
+<tr>
+<td>Quantile</td>
+<td>Percentile, by a different name. Quantiles are indexed by fractions.</td>
+<td>0.8 quantile is the same as 80th percentile</td>
+</tr>
+<tr>
+<td>Interquartile Range (IQR)</td>
+<td>Common measurement of variablity. Difference between 25th and 75th percentile</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="example-variability-estimates-of-state-population">Example: Variability Estimates of State Population</h2>
+
+<div class="code-chunk" data-id="code-chunk-id-2" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=2, .line-numbers  cmd=&quot;Rscript&quot; continue=&quot;load_data&quot; args=&quot;--save&quot;}" class="language-r line-numbers">sd<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">)</span>
+IQR<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">)</span>
+mad<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><hr>
+<h2 class="mume-header" id="17-exploring-data-distribution">1.7 Exploring Data Distribution</h2>
+
+<p>Plots and graphs are useful when determining the distribution of the data overall</p>
+<h4 class="mume-header" id="percentiles-boxplots">Percentiles &amp; Boxplots</h4>
+
+<p>Useful for summarizing the entire distribution of the data.</p>
+<h5 class="mume-header" id="percentiles">Percentiles</h5>
+
+<p>Quartiles are usually preported (25th, 50th, 75th percentiles). Deciles (10th, 20th...90th percentiles) are also commonly reported.<br>
+Especially useful for summarizing the <em>tails:</em> outer range of the distribution.</p>
+<div class="code-chunk" data-id="code-chunk-id-3" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=3, .line-numbers  cmd=&quot;Rscript&quot; continue=&quot;load_data&quot; args=&quot;--save&quot;}" class="language-r line-numbers">quantile<span class="token punctuation">(</span>state<span class="token operator">$</span>Murder.Rate<span class="token punctuation">,</span> p<span class="token operator">=</span>c<span class="token punctuation">(</span><span class="token number">.05</span><span class="token punctuation">,</span> <span class="token number">.25</span><span class="token punctuation">,</span> <span class="token number">.5</span><span class="token punctuation">,</span> <span class="token number">.75</span><span class="token punctuation">,</span> <span class="token number">.90</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">#p = tells r which percentiles you want. To get multiple, you have to concatentate using c()</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><p><em>How to read a percentile table</em><br>
+The table shows that the median is 4 murders per 100,000 people. There is some variablity though, since the 5th percentile has 1.6 murders while the 95th percentile has 6.51 per 100,000 people.</p>
+<h5 class="mume-header" id="boxplots">Boxplots</h5>
+
+<p>Based on percentiles and give a quick way to visualize the data's distribution.</p>
+<div class="code-chunk" data-id="code-chunk-id-4" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=4, .line-numbers  cmd=&quot;Rscript&quot; continue=&quot;load_data&quot; args=&quot;--save&quot;}" class="language-r line-numbers">boxplot<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token operator">/</span><span class="token number">100000</span><span class="token punctuation">,</span> ylab<span class="token operator">=</span><span class="token string">"Population (millions)"</span><span class="token punctuation">)</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><p><em>How to read a boxplot</em>:</p>
+<ol>
+<li>The box shows the distribution of the majority of the data.<br>
+a. The top portion of the box sits around 7 million.<br>
+b. The bottom portion of the box sits around 2 million.<br>
+c. The top of the box is the 75th percentile.<br>
+d. The bottom of the box is the 25th percentile.</li>
+<li>The median is the dark line in the middle of the box.<br>
+a. It shows the median is roughly 5 million.</li>
+<li>The dashed lines (<em>whiskers</em>) show the range for the bulk of the data.<br>
+a. Keep in mind base R will extend the whiskers to the farthest point from the box, but <em>will not</em> go further than 1.5 times the Inter Quartile Range (IQR).</li>
+<li>Outliers are plotted as single points (circles).</li>
+</ol>
+<h4 class="mume-header" id="frequency-tables-histograms">Frequency Tables &amp; Histograms</h4>
+
+<p>A frequency table divides the variable into equally spaced segments and tells us how many values fall within each segment. Histograms are the visual version of frequecy tables. Empty bins should be inluded. The user chooses the bin size.</p>
+<h4 class="mume-header" id="frequency-tables">Frequency Tables</h4>
+
+<pre data-role="codeBlock" data-info="{r}" class="language-"><code>breaks &lt;-seq(from=min(state$Population), to=max(state$Population), length=11) # set breaks to start at the minimum population and end at the maximum population, with 10 bins (it is zero indexed)
+pop_freq &lt;- cut(state$Population, breaks=breaks, right=TRUE, include.lowest=TRUE) # cut the population column using the breaks described above. right = TRUE means that the intervals should be closed on the right. include.lowest = TRUE means the lowest interval should be included.
+table(pop_freq) # returns a contingency table. This is all you need to get a frequency table.
+</code></pre><p>The frequency table above is not readable. So, we use different packages to manipulate the data into a more readable format.</p>
+<pre data-role="codeBlock" data-info="{r}" class="language-"><code>state$PopFreq &lt;- pop_freq # adds the data from pop_freq to the dataset in a new column titled PopFreq so we can manipulate it below using dplyr, which is part of Tidyverse
+
+## this code makes a table of states and abbreviations
+state_abb &lt;- state  %&gt;% # %&gt;% are pipes that allow you to pass data through multiple transformations with less code
+  arrange(Population)  %&gt;% # arranges the data by population
+  group_by(PopFreq)  %&gt;%  # groups the arranged data by the population frequency (set above)
+  summarize(state = paste(Abbreviation, collapse = ","), .drop=FALSE)  %&gt;%  # creates a new dataframe by converting the Abbreviation column in the state column to characters, and separates them by a column without dropping groups formed by factor levels that didn't appear in the data.
+  complete(PopFreq, fill=list(state=''))  %&gt;% # turns implicit missing values into explicit ones.
+  select(state) # keeps the state variable only.
+
+## this code sets the lower and upper numbers for the population range
+lower_br &lt;- formatC(breaks[1:10], format="d", digits=0, big.mark=",") #formatC lets you format numbers. format="d" uses integers, digits=0 is no digits after the decimal point, and big.mark="," is where to break numbers with more than 3 digits (i.e. 1,000)
+upper_br &lt;- formatC(breaks[2:10]-1, breaks[11], format="d", digits=0, big.mark=",")
+
+## this code creates the pop_table
+pop_table &lt;- data.frame("BinNumber" = 1:10, # BinNumber column numbered 1-10
+  "BinRange" = paste(lower_br, upper_br, sep="-"), # Bin ranges separated by a dash
+  "Count" = as.numeric(table(pop_freq)), # count of the number of states in each bin
+  "States" = state_abb) # includes state abbreviations
+
+ascii(pop_table, include.rownames=FALSE, digits=c(0, 0, 0, 0), align=c("l","r", "r", "l"), # digitsis the number of digits to display per column, in this case it's 4 columns showing 0 digits in each. align tells R where to align the text in each column
+  caption="A frequency table of population by state")
+</code></pre><p>When choosing bin size, keep in mind that bins that are too large might loose important features. Bins that are too small the result is too granular</p>
+<h4 class="mume-header" id="histograms">Histograms</h4>
+
+<p>Histograms are how we visualize frequency tables. The bins are on the x-axis with the counts on the y-axis.</p>
+<pre data-role="codeBlock" data-info="{r}" class="language-"><code>hist(state$Population, breaks=breaks)
+</code></pre><p>Conventions:</p>
+<ul>
+<li>Empty bins are included in the graphs</li>
+<li>Bins are equal width</li>
+<li>The number of bins is up to the user</li>
+<li>Bars are contiguous - no empty spaces between bars, unless they are empty bins.</li>
+</ul>
+<p><em>Skewness</em> refers to whether the data is skewed towards larger or smaller values.<br>
+The above histogram skews right because the tail (lower values) are on the right size.</p>
+<h4 class="mume-header" id="density-plots-estimates">Density Plots &amp; Estimates</h4>
+
+
+      </div>
+      <div class="md-sidebar-toc"><ul>
+<li><a href="#11-elements-of-structured-data">1.1 Elements of Structured Data</a>
+<ul>
+<li><a href="#numeric-data">Numeric Data:</a></li>
+<li><a href="#categorical">Categorical:</a></li>
+</ul>
+</li>
+<li><a href="#12-rectangular-data">1.2 Rectangular Data</a>
+<ul>
+<li><a href="#other-data-types">other data types</a></li>
+</ul>
+</li>
+<li><a href="#13-estimates-of-location">1.3 Estimates of Location</a></li>
+<li><a href="#14-median-and-robust-estimates">1.4 Median and Robust Estimates</a></li>
+<li><a href="#example-location-estimates-of-population-and-murder-rates">Example: Location Estimates of Population and Murder Rates</a></li>
+<li><a href="#15-estimates-of-variability-dispersion">1.5 Estimates of Variability (Dispersion)</a></li>
+<li><a href="#16-estimates-based-on-percentiles">1.6 Estimates Based on Percentiles</a></li>
+<li><a href="#example-variability-estimates-of-state-population">Example: Variability Estimates of State Population</a></li>
+<li><a href="#17-exploring-data-distribution">1.7 Exploring Data Distribution</a>
+<ul>
+<li><a href="#percentiles-boxplots">Percentiles &amp; Boxplots</a>
+<ul>
+<li><a href="#percentiles">Percentiles</a></li>
+<li><a href="#boxplots">Boxplots</a></li>
+</ul>
+</li>
+<li><a href="#frequency-tables-histograms">Frequency Tables &amp; Histograms</a></li>
+<li><a href="#frequency-tables">Frequency Tables</a></li>
+<li><a href="#histograms">Histograms</a></li>
+<li><a href="#density-plots-estimates">Density Plots &amp; Estimates</a></li>
+</ul>
+</li>
+</ul>
+</div>
+      <a id="sidebar-toc-btn">≡</a>
+    
+    
+    
+    
+    
+    
+    
+    
+<script>
+
+var sidebarTOCBtn = document.getElementById('sidebar-toc-btn')
+sidebarTOCBtn.addEventListener('click', function(event) {
+  event.stopPropagation()
+  if (document.body.hasAttribute('html-show-sidebar-toc')) {
+    document.body.removeAttribute('html-show-sidebar-toc')
+  } else {
+    document.body.setAttribute('html-show-sidebar-toc', true)
+  }
+})
+</script>
+      
+  
+    </body></html>

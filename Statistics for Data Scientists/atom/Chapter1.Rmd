@@ -1,12 +1,23 @@
-  bncdp']---
+---
 title: "Notes"
 output: html_document
 export_on_save:
   html: true
 ---
 
+
+Name| Content
+------------- | -------------
+TYPE | notes
+BOOK | Practical Statistics for Data Scientists
+AUTHORS | Peter Bruce, Andrew Bruce, & Peter Gedeck
+PUBLISHER | O'Reilly
+
+These are my notes from the above book. I wanted to learn statistics in more depth. I hope this helps you learn as well.
+I * strongly * recommend that you purchase the book and work your way through it. It's well-written and easy to follow.
+
 ```r {.line-numbers  cmd="Rscript" id="load_data" args="--save"}
-state <- read.csv("data/state.csv") #url("https://raw.githubusercontent.com/gedeck/practical-statistics-for-data-scientists/master/data/state.csv")
+state <- read.csv(url("https://raw.githubusercontent.com/gedeck/practical-statistics-for-data-scientists/master/data/state.csv"))
 
 # Data is available from:
 # https://github.com/gedeck/practical-statistics-for-data-scientists/tree/master/data
@@ -25,15 +36,6 @@ library("matrixStats") # used for Weighted Mean
 
 # All code chunk are in the R language.
 ```
-Name| Content
-------------- | -------------
-TYPE | notes
-BOOK | Practical Statistics for Data Scientists
-AUTHORS | Peter Bruce, Andrew Bruce, & Peter Gedeck
-PUBLISHER | O'Reilly
-
-These are my notes from the above book. I wanted to learn statistics in more depth. I hope this helps you learn as well.
-I * strongly * recommend that you purchase the book and work your way through it. It's well-written and easy to follow.
 
 ## 1.1 Elements of Structured Data
 #### Numeric Data:

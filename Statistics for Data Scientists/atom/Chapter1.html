@@ -289,7 +289,7 @@ pre[data-line] .line-highlight[data-end]:after {
 </table>
 <p>These are my notes from the above book. I wanted to learn statistics in more depth. I hope this helps you learn as well.<br>
 I * strongly * recommend that you purchase the book and work your way through it. It's well-written and easy to follow.</p>
-<div class="code-chunk" data-id="load_data" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=0, .line-numbers  cmd=&quot;Rscript&quot; id=&quot;load_data&quot; args=&quot;--save&quot;}" class="language-r line-numbers">state <span class="token operator">&lt;-</span> url<span class="token punctuation">(</span><span class="token string">"https://raw.githubusercontent.com/gedeck/practical-statistics-for-data-scientists/master/data/state.csv"</span><span class="token punctuation">)</span>
+<div class="code-chunk" data-id="load_data" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=0, .line-numbers  cmd=&quot;Rscript&quot; id=&quot;load_data&quot; args=&quot;--save&quot;}" class="language-r line-numbers">state <span class="token operator">&lt;-</span> read.csv<span class="token punctuation">(</span>url<span class="token punctuation">(</span><span class="token string">"https://raw.githubusercontent.com/gedeck/practical-statistics-for-data-scientists/master/data/state.csv"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 
 <span class="token comment"># Data is available from:</span>
 <span class="token comment"># https://github.com/gedeck/practical-statistics-for-data-scientists/tree/master/data</span>
@@ -307,7 +307,66 @@ library<span class="token punctuation">(</span><span class="token string">"descr
 library<span class="token punctuation">(</span><span class="token string">"matrixStats"</span><span class="token punctuation">)</span> <span class="token comment"># used for Weighted Mean</span>
 
 <span class="token comment"># All code chunk are in the R language.</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><h2 class="mume-header" id="11-elements-of-structured-data">1.1 Elements of Structured Data</h2>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"><pre class="language-text">-- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+v ggplot2 3.2.1     v purrr   0.3.3
+v tibble  3.0.0     v dplyr   0.8.5
+v tidyr   1.0.2     v stringr 1.4.0
+v readr   1.3.1     v forcats 0.5.0
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+Warning messages:
+1: package 'tidyverse' was built under R version 3.6.3 
+2: package 'ggplot2' was built under R version 3.6.2 
+3: package 'tibble' was built under R version 3.6.3 
+4: package 'tidyr' was built under R version 3.6.3 
+5: package 'readr' was built under R version 3.6.3 
+6: package 'purrr' was built under R version 3.6.2 
+7: package 'dplyr' was built under R version 3.6.3 
+8: package 'stringr' was built under R version 3.6.2 
+9: package 'forcats' was built under R version 3.6.3 
+Loading required package: sm
+Package 'sm', version 2.2-5.6: type help(sm) for summary information
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+Warning messages:
+1: package 'vioplot' was built under R version 4.0.4 
+2: package 'sm' was built under R version 4.0.3 
+3: package 'zoo' was built under R version 3.6.3 
+
+Attaching package: 'ascii'
+
+The following object is masked from 'package:tidyr':
+
+    expand
+
+Warning message:
+package 'ascii' was built under R version 4.0.3 
+corrplot 0.84 loaded
+Warning message:
+package 'corrplot' was built under R version 4.0.3 
+Warning message:
+package 'descr' was built under R version 4.0.3 
+
+Attaching package: 'matrixStats'
+
+The following object is masked from 'package:dplyr':
+
+    count
+
+Warning message:
+package 'matrixStats' was built under R version 4.0.4 
+Error in save.image(name) : 
+  image could not be renamed and is left in .RDataTmp1
+Calls: sys.save.image -&gt; save.image
+Execution halted
+</pre></div></div><h2 class="mume-header" id="11-elements-of-structured-data">1.1 Elements of Structured Data</h2>
 
 <h4 class="mume-header" id="numeric-data">Numeric Data:</h4>
 
@@ -416,7 +475,65 @@ Useful when you want a single number to describe the location or variablity of t
   mean<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">)</span>
   median<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">)</span>
 
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><hr>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"><pre class="language-text">-- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+v ggplot2 3.2.1     v purrr   0.3.3
+v tibble  3.0.0     v dplyr   0.8.5
+v tidyr   1.0.2     v stringr 1.4.0
+v readr   1.3.1     v forcats 0.5.0
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+Warning messages:
+1: package 'tidyverse' was built under R version 3.6.3 
+2: package 'ggplot2' was built under R version 3.6.2 
+3: package 'tibble' was built under R version 3.6.3 
+4: package 'tidyr' was built under R version 3.6.3 
+5: package 'readr' was built under R version 3.6.3 
+6: package 'purrr' was built under R version 3.6.2 
+7: package 'dplyr' was built under R version 3.6.3 
+8: package 'stringr' was built under R version 3.6.2 
+9: package 'forcats' was built under R version 3.6.3 
+Loading required package: sm
+Package 'sm', version 2.2-5.6: type help(sm) for summary information
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+Warning messages:
+1: package 'vioplot' was built under R version 4.0.4 
+2: package 'sm' was built under R version 4.0.3 
+3: package 'zoo' was built under R version 3.6.3 
+
+Attaching package: 'ascii'
+
+The following object is masked from 'package:tidyr':
+
+    expand
+
+Warning message:
+package 'ascii' was built under R version 4.0.3 
+corrplot 0.84 loaded
+Warning message:
+package 'corrplot' was built under R version 4.0.3 
+Warning message:
+package 'descr' was built under R version 4.0.3 
+
+Attaching package: 'matrixStats'
+
+The following object is masked from 'package:dplyr':
+
+    count
+
+Warning message:
+package 'matrixStats' was built under R version 4.0.4 
+[1] 6162876
+[1] 4783697
+[1] 4436370
+</pre></div></div><hr>
 <h2 class="mume-header" id="15-estimates-of-variability-dispersion">1.5 Estimates of Variability (Dispersion)</h2>
 
 <p>Measures whether the data is tightly clustered or spread out.</p>
@@ -505,7 +622,69 @@ Deviations, Variance, and Standard Deviation are all sensitive to outliers. An e
 <div class="code-chunk" data-id="code-chunk-id-2" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=2, .line-numbers  cmd=&quot;Rscript&quot; continue=&quot;load_data&quot; args=&quot;--save&quot;}" class="language-r line-numbers">sd<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">)</span>
 IQR<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">)</span>
 mad<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><hr>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"><pre class="language-text">-- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+v ggplot2 3.2.1     v purrr   0.3.3
+v tibble  3.0.0     v dplyr   0.8.5
+v tidyr   1.0.2     v stringr 1.4.0
+v readr   1.3.1     v forcats 0.5.0
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+Warning messages:
+1: package 'tidyverse' was built under R version 3.6.3 
+2: package 'ggplot2' was built under R version 3.6.2 
+3: package 'tibble' was built under R version 3.6.3 
+4: package 'tidyr' was built under R version 3.6.3 
+5: package 'readr' was built under R version 3.6.3 
+6: package 'purrr' was built under R version 3.6.2 
+7: package 'dplyr' was built under R version 3.6.3 
+8: package 'stringr' was built under R version 3.6.2 
+9: package 'forcats' was built under R version 3.6.3 
+Loading required package: sm
+Package 'sm', version 2.2-5.6: type help(sm) for summary information
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+Warning messages:
+1: package 'vioplot' was built under R version 4.0.4 
+2: package 'sm' was built under R version 4.0.3 
+3: package 'zoo' was built under R version 3.6.3 
+
+Attaching package: 'ascii'
+
+The following object is masked from 'package:tidyr':
+
+    expand
+
+Warning message:
+package 'ascii' was built under R version 4.0.3 
+corrplot 0.84 loaded
+Warning message:
+package 'corrplot' was built under R version 4.0.3 
+Warning message:
+package 'descr' was built under R version 4.0.3 
+
+Attaching package: 'matrixStats'
+
+The following object is masked from 'package:dplyr':
+
+    count
+
+Warning message:
+package 'matrixStats' was built under R version 4.0.4 
+[1] 6848235
+[1] 4847308
+[1] 3849870
+Error in save.image(name) : 
+  image could not be renamed and is left in .RDataTmp
+Calls: sys.save.image -&gt; save.image
+Execution halted
+</pre></div></div><hr>
 <h2 class="mume-header" id="17-exploring-data-distribution">1.7 Exploring Data Distribution</h2>
 
 <p>Plots and graphs are useful when determining the distribution of the data overall</p>
@@ -517,14 +696,126 @@ mad<span class="token punctuation">(</span>state<span class="token operator">$</
 <p>Quartiles are usually preported (25th, 50th, 75th percentiles). Deciles (10th, 20th...90th percentiles) are also commonly reported.<br>
 Especially useful for summarizing the <em>tails:</em> outer range of the distribution.</p>
 <div class="code-chunk" data-id="code-chunk-id-3" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=3, .line-numbers  cmd=&quot;Rscript&quot; continue=&quot;load_data&quot; args=&quot;--save&quot;}" class="language-r line-numbers">quantile<span class="token punctuation">(</span>state<span class="token operator">$</span>Murder.Rate<span class="token punctuation">,</span> p<span class="token operator">=</span>c<span class="token punctuation">(</span><span class="token number">.05</span><span class="token punctuation">,</span> <span class="token number">.25</span><span class="token punctuation">,</span> <span class="token number">.5</span><span class="token punctuation">,</span> <span class="token number">.75</span><span class="token punctuation">,</span> <span class="token number">.90</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">#p = tells r which percentiles you want. To get multiple, you have to concatentate using c()</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><p><em>How to read a percentile table</em><br>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"><pre class="language-text">-- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+v ggplot2 3.2.1     v purrr   0.3.3
+v tibble  3.0.0     v dplyr   0.8.5
+v tidyr   1.0.2     v stringr 1.4.0
+v readr   1.3.1     v forcats 0.5.0
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+Warning messages:
+1: package 'tidyverse' was built under R version 3.6.3 
+2: package 'ggplot2' was built under R version 3.6.2 
+3: package 'tibble' was built under R version 3.6.3 
+4: package 'tidyr' was built under R version 3.6.3 
+5: package 'readr' was built under R version 3.6.3 
+6: package 'purrr' was built under R version 3.6.2 
+7: package 'dplyr' was built under R version 3.6.3 
+8: package 'stringr' was built under R version 3.6.2 
+9: package 'forcats' was built under R version 3.6.3 
+Loading required package: sm
+Package 'sm', version 2.2-5.6: type help(sm) for summary information
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+Warning messages:
+1: package 'vioplot' was built under R version 4.0.4 
+2: package 'sm' was built under R version 4.0.3 
+3: package 'zoo' was built under R version 3.6.3 
+
+Attaching package: 'ascii'
+
+The following object is masked from 'package:tidyr':
+
+    expand
+
+Warning message:
+package 'ascii' was built under R version 4.0.3 
+corrplot 0.84 loaded
+Warning message:
+package 'corrplot' was built under R version 4.0.3 
+Warning message:
+package 'descr' was built under R version 4.0.3 
+
+Attaching package: 'matrixStats'
+
+The following object is masked from 'package:dplyr':
+
+    count
+
+Warning message:
+package 'matrixStats' was built under R version 4.0.4 
+   5%   25%   50%   75%   90% 
+1.600 2.425 4.000 5.550 6.010 
+</pre></div></div><p><em>How to read a percentile table</em><br>
 The table shows that the median is 4 murders per 100,000 people. There is some variablity though, since the 5th percentile has 1.6 murders while the 95th percentile has 6.51 per 100,000 people.</p>
 <h5 class="mume-header" id="boxplots">Boxplots</h5>
 
 <p>Based on percentiles and give a quick way to visualize the data's distribution.</p>
 <div class="code-chunk" data-id="code-chunk-id-4" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=4, .line-numbers  cmd=&quot;Rscript&quot; continue=&quot;load_data&quot; args=&quot;--save&quot;}" class="language-r line-numbers">boxplot<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token operator">/</span><span class="token number">100000</span><span class="token punctuation">,</span> ylab<span class="token operator">=</span><span class="token string">"Population (millions)"</span><span class="token punctuation">)</span>
 
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><p><em>How to read a boxplot</em>:</p>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"><pre class="language-text">-- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+v ggplot2 3.2.1     v purrr   0.3.3
+v tibble  3.0.0     v dplyr   0.8.5
+v tidyr   1.0.2     v stringr 1.4.0
+v readr   1.3.1     v forcats 0.5.0
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+Warning messages:
+1: package 'tidyverse' was built under R version 3.6.3 
+2: package 'ggplot2' was built under R version 3.6.2 
+3: package 'tibble' was built under R version 3.6.3 
+4: package 'tidyr' was built under R version 3.6.3 
+5: package 'readr' was built under R version 3.6.3 
+6: package 'purrr' was built under R version 3.6.2 
+7: package 'dplyr' was built under R version 3.6.3 
+8: package 'stringr' was built under R version 3.6.2 
+9: package 'forcats' was built under R version 3.6.3 
+Loading required package: sm
+Package 'sm', version 2.2-5.6: type help(sm) for summary information
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+Warning messages:
+1: package 'vioplot' was built under R version 4.0.4 
+2: package 'sm' was built under R version 4.0.3 
+3: package 'zoo' was built under R version 3.6.3 
+
+Attaching package: 'ascii'
+
+The following object is masked from 'package:tidyr':
+
+    expand
+
+Warning message:
+package 'ascii' was built under R version 4.0.3 
+corrplot 0.84 loaded
+Warning message:
+package 'corrplot' was built under R version 4.0.3 
+Warning message:
+package 'descr' was built under R version 4.0.3 
+
+Attaching package: 'matrixStats'
+
+The following object is masked from 'package:dplyr':
+
+    count
+
+Warning message:
+package 'matrixStats' was built under R version 4.0.4 
+</pre></div></div><p><em>How to read a boxplot</em>:</p>
 <ol>
 <li>The box shows the distribution of the majority of the data.<br>
 a. The top portion of the box sits around 7 million.<br>
@@ -542,38 +833,157 @@ a. Keep in mind base R will extend the whiskers to the farthest point from the b
 <p>A frequency table divides the variable into equally spaced segments and tells us how many values fall within each segment. Histograms are the visual version of frequecy tables. Empty bins should be inluded. The user chooses the bin size.</p>
 <h4 class="mume-header" id="frequency-tables">Frequency Tables</h4>
 
-<pre data-role="codeBlock" data-info="{r}" class="language-"><code>breaks &lt;-seq(from=min(state$Population), to=max(state$Population), length=11) # set breaks to start at the minimum population and end at the maximum population, with 10 bins (it is zero indexed)
-pop_freq &lt;- cut(state$Population, breaks=breaks, right=TRUE, include.lowest=TRUE) # cut the population column using the breaks described above. right = TRUE means that the intervals should be closed on the right. include.lowest = TRUE means the lowest interval should be included.
-table(pop_freq) # returns a contingency table. This is all you need to get a frequency table.
-</code></pre><p>The frequency table above is not readable. So, we use different packages to manipulate the data into a more readable format.</p>
-<pre data-role="codeBlock" data-info="{r}" class="language-"><code>state$PopFreq &lt;- pop_freq # adds the data from pop_freq to the dataset in a new column titled PopFreq so we can manipulate it below using dplyr, which is part of Tidyverse
+<div class="code-chunk" data-id="breaks" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=5, .line-numbers  cmd=&quot;Rscript&quot; continue=&quot;load_data&quot; id=&quot;breaks&quot; args=&quot;--save&quot;}" class="language-r line-numbers">breaks <span class="token operator">&lt;-</span>seq<span class="token punctuation">(</span>from<span class="token operator">=</span>min<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">)</span><span class="token punctuation">,</span> to<span class="token operator">=</span>max<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">)</span><span class="token punctuation">,</span> length<span class="token operator">=</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token comment"># set breaks to start at the minimum population and end at the maximum population, with 10 bins (it is zero indexed)</span>
+pop_freq <span class="token operator">&lt;-</span> cut<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">,</span> breaks<span class="token operator">=</span>breaks<span class="token punctuation">,</span> right<span class="token operator">=</span><span class="token boolean">TRUE</span><span class="token punctuation">,</span> include.lowest<span class="token operator">=</span><span class="token boolean">TRUE</span><span class="token punctuation">)</span> <span class="token comment"># cut the population column using the breaks described above. right = TRUE means that the intervals should be closed on the right. include.lowest = TRUE means the lowest interval should be included.</span>
+table<span class="token punctuation">(</span>pop_freq<span class="token punctuation">)</span> <span class="token comment"># returns a contingency table. This is all you need to get a frequency table.</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"><pre class="language-text">-- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+v ggplot2 3.2.1     v purrr   0.3.3
+v tibble  3.0.0     v dplyr   0.8.5
+v tidyr   1.0.2     v stringr 1.4.0
+v readr   1.3.1     v forcats 0.5.0
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+Warning messages:
+1: package 'tidyverse' was built under R version 3.6.3 
+2: package 'ggplot2' was built under R version 3.6.2 
+3: package 'tibble' was built under R version 3.6.3 
+4: package 'tidyr' was built under R version 3.6.3 
+5: package 'readr' was built under R version 3.6.3 
+6: package 'purrr' was built under R version 3.6.2 
+7: package 'dplyr' was built under R version 3.6.3 
+8: package 'stringr' was built under R version 3.6.2 
+9: package 'forcats' was built under R version 3.6.3 
+Loading required package: sm
+Package 'sm', version 2.2-5.6: type help(sm) for summary information
+Loading required package: zoo
 
-## this code makes a table of states and abbreviations
-state_abb &lt;- state  %&gt;% # %&gt;% are pipes that allow you to pass data through multiple transformations with less code
-  arrange(Population)  %&gt;% # arranges the data by population
-  group_by(PopFreq)  %&gt;%  # groups the arranged data by the population frequency (set above)
-  summarize(state = paste(Abbreviation, collapse = ","), .drop=FALSE)  %&gt;%  # creates a new dataframe by converting the Abbreviation column in the state column to characters, and separates them by a column without dropping groups formed by factor levels that didn't appear in the data.
-  complete(PopFreq, fill=list(state=''))  %&gt;% # turns implicit missing values into explicit ones.
-  select(state) # keeps the state variable only.
+Attaching package: 'zoo'
 
-## this code sets the lower and upper numbers for the population range
-lower_br &lt;- formatC(breaks[1:10], format="d", digits=0, big.mark=",") #formatC lets you format numbers. format="d" uses integers, digits=0 is no digits after the decimal point, and big.mark="," is where to break numbers with more than 3 digits (i.e. 1,000)
-upper_br &lt;- formatC(breaks[2:10]-1, breaks[11], format="d", digits=0, big.mark=",")
+The following objects are masked from 'package:base':
 
-## this code creates the pop_table
-pop_table &lt;- data.frame("BinNumber" = 1:10, # BinNumber column numbered 1-10
-  "BinRange" = paste(lower_br, upper_br, sep="-"), # Bin ranges separated by a dash
-  "Count" = as.numeric(table(pop_freq)), # count of the number of states in each bin
-  "States" = state_abb) # includes state abbreviations
+    as.Date, as.Date.numeric
 
-ascii(pop_table, include.rownames=FALSE, digits=c(0, 0, 0, 0), align=c("l","r", "r", "l"), # digitsis the number of digits to display per column, in this case it's 4 columns showing 0 digits in each. align tells R where to align the text in each column
-  caption="A frequency table of population by state")
-</code></pre><p>When choosing bin size, keep in mind that bins that are too large might loose important features. Bins that are too small the result is too granular</p>
+Warning messages:
+1: package 'vioplot' was built under R version 4.0.4 
+2: package 'sm' was built under R version 4.0.3 
+3: package 'zoo' was built under R version 3.6.3 
+
+Attaching package: 'ascii'
+
+The following object is masked from 'package:tidyr':
+
+    expand
+
+Warning message:
+package 'ascii' was built under R version 4.0.3 
+corrplot 0.84 loaded
+Warning message:
+package 'corrplot' was built under R version 4.0.3 
+Warning message:
+package 'descr' was built under R version 4.0.3 
+
+Attaching package: 'matrixStats'
+
+The following object is masked from 'package:dplyr':
+
+    count
+
+Warning message:
+package 'matrixStats' was built under R version 4.0.4 
+pop_freq
+[5.64e+05,4.23e+06]  (4.23e+06,7.9e+06]  (7.9e+06,1.16e+07] (1.16e+07,1.52e+07] 
+                 24                  14                   6                   2 
+(1.52e+07,1.89e+07] (1.89e+07,2.26e+07] (2.26e+07,2.62e+07] (2.62e+07,2.99e+07] 
+                  1                   1                   1                   0 
+(2.99e+07,3.36e+07] (3.36e+07,3.73e+07] 
+                  0                   1 
+</pre></div></div><p>The frequency table above is not readable. So, we use different packages to manipulate the data into a more readable format.</p>
+<div class="code-chunk" data-id="code-chunk-id-6" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=6, .line-numbers  cmd=&quot;Rscript&quot; continue=&quot;load_data&quot; args=&quot;--save&quot;}" class="language-r line-numbers">state<span class="token operator">$</span>PopFreq <span class="token operator">&lt;-</span> pop_freq <span class="token comment"># adds the data from pop_freq to the dataset in a new column titled PopFreq so we can manipulate it below using dplyr, which is part of Tidyverse</span>
+
+<span class="token comment">## this code makes a table of states and abbreviations</span>
+state_abb <span class="token operator">&lt;-</span> state  <span class="token percent-operator operator">%&gt;%</span> <span class="token comment"># %&gt;% are pipes that allow you to pass data through multiple transformations with less code</span>
+  arrange<span class="token punctuation">(</span>Population<span class="token punctuation">)</span>  <span class="token percent-operator operator">%&gt;%</span> <span class="token comment"># arranges the data by population</span>
+  group_by<span class="token punctuation">(</span>PopFreq<span class="token punctuation">)</span>  <span class="token percent-operator operator">%&gt;%</span>  <span class="token comment"># groups the arranged data by the population frequency (set above)</span>
+  summarize<span class="token punctuation">(</span>state <span class="token operator">=</span> paste<span class="token punctuation">(</span>Abbreviation<span class="token punctuation">,</span> collapse <span class="token operator">=</span> <span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">,</span> .drop<span class="token operator">=</span><span class="token boolean">FALSE</span><span class="token punctuation">)</span>  <span class="token percent-operator operator">%&gt;%</span>  <span class="token comment"># creates a new dataframe by converting the Abbreviation column in the state column to characters, and separates them by a column without dropping groups formed by factor levels that didn't appear in the data.</span>
+  complete<span class="token punctuation">(</span>PopFreq<span class="token punctuation">,</span> fill<span class="token operator">=</span>list<span class="token punctuation">(</span>state<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token percent-operator operator">%&gt;%</span> <span class="token comment"># turns implicit missing values into explicit ones.</span>
+  select<span class="token punctuation">(</span>state<span class="token punctuation">)</span> <span class="token comment"># keeps the state variable only.</span>
+
+<span class="token comment">## this code sets the lower and upper numbers for the population range</span>
+lower_br <span class="token operator">&lt;-</span> formatC<span class="token punctuation">(</span>breaks<span class="token punctuation">[</span><span class="token number">1</span><span class="token operator">:</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">,</span> format<span class="token operator">=</span><span class="token string">"d"</span><span class="token punctuation">,</span> digits<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> big.mark<span class="token operator">=</span><span class="token string">","</span><span class="token punctuation">)</span> <span class="token comment">#formatC lets you format numbers. format="d" uses integers, digits=0 is no digits after the decimal point, and big.mark="," is where to break numbers with more than 3 digits (i.e. 1,000)</span>
+upper_br <span class="token operator">&lt;-</span> formatC<span class="token punctuation">(</span>breaks<span class="token punctuation">[</span><span class="token number">2</span><span class="token operator">:</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> breaks<span class="token punctuation">[</span><span class="token number">11</span><span class="token punctuation">]</span><span class="token punctuation">,</span> format<span class="token operator">=</span><span class="token string">"d"</span><span class="token punctuation">,</span> digits<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> big.mark<span class="token operator">=</span><span class="token string">","</span><span class="token punctuation">)</span>
+
+<span class="token comment">## this code creates the pop_table</span>
+pop_table <span class="token operator">&lt;-</span> data.frame<span class="token punctuation">(</span><span class="token string">"BinNumber"</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">:</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token comment"># BinNumber column numbered 1-10</span>
+  <span class="token string">"BinRange"</span> <span class="token operator">=</span> paste<span class="token punctuation">(</span>lower_br<span class="token punctuation">,</span> upper_br<span class="token punctuation">,</span> sep<span class="token operator">=</span><span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment"># Bin ranges separated by a dash</span>
+  <span class="token string">"Count"</span> <span class="token operator">=</span> as.numeric<span class="token punctuation">(</span>table<span class="token punctuation">(</span>pop_freq<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment"># count of the number of states in each bin</span>
+  <span class="token string">"States"</span> <span class="token operator">=</span> state_abb<span class="token punctuation">)</span> <span class="token comment"># includes state abbreviations</span>
+
+ascii<span class="token punctuation">(</span>pop_table<span class="token punctuation">,</span> include.rownames<span class="token operator">=</span><span class="token boolean">FALSE</span><span class="token punctuation">,</span> digits<span class="token operator">=</span>c<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> align<span class="token operator">=</span>c<span class="token punctuation">(</span><span class="token string">"l"</span><span class="token punctuation">,</span><span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token string">"l"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment"># digitsis the number of digits to display per column, in this case it's 4 columns showing 0 digits in each. align tells R where to align the text in each column</span>
+  caption<span class="token operator">=</span><span class="token string">"A frequency table of population by state"</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"><pre class="language-text">-- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+v ggplot2 3.2.1     v purrr   0.3.3
+v tibble  3.0.0     v dplyr   0.8.5
+v tidyr   1.0.2     v stringr 1.4.0
+v readr   1.3.1     v forcats 0.5.0
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+Warning messages:
+1: package 'tidyverse' was built under R version 3.6.3 
+2: package 'ggplot2' was built under R version 3.6.2 
+3: package 'tibble' was built under R version 3.6.3 
+4: package 'tidyr' was built under R version 3.6.3 
+5: package 'readr' was built under R version 3.6.3 
+6: package 'purrr' was built under R version 3.6.2 
+7: package 'dplyr' was built under R version 3.6.3 
+8: package 'stringr' was built under R version 3.6.2 
+9: package 'forcats' was built under R version 3.6.3 
+Loading required package: sm
+Package 'sm', version 2.2-5.6: type help(sm) for summary information
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+Warning messages:
+1: package 'vioplot' was built under R version 4.0.4 
+2: package 'sm' was built under R version 4.0.3 
+3: package 'zoo' was built under R version 3.6.3 
+
+Attaching package: 'ascii'
+
+The following object is masked from 'package:tidyr':
+
+    expand
+
+Warning message:
+package 'ascii' was built under R version 4.0.3 
+corrplot 0.84 loaded
+Warning message:
+package 'corrplot' was built under R version 4.0.3 
+Warning message:
+package 'descr' was built under R version 4.0.3 
+
+Attaching package: 'matrixStats'
+
+The following object is masked from 'package:dplyr':
+
+    count
+
+Warning message:
+package 'matrixStats' was built under R version 4.0.4 
+Error: object 'pop_freq' not found
+Execution halted
+</pre></div></div><p>When choosing bin size, keep in mind that bins that are too large might loose important features. Bins that are too small the result is too granular</p>
 <h4 class="mume-header" id="histograms">Histograms</h4>
 
 <p>Histograms are how we visualize frequency tables. The bins are on the x-axis with the counts on the y-axis.</p>
-<pre data-role="codeBlock" data-info="{r}" class="language-"><code>hist(state$Population, breaks=breaks)
-</code></pre><p>Conventions:</p>
+<div class="code-chunk" data-id="code-chunk-id-7" data-cmd="Rscript"><div class="input-div"><pre data-role="codeBlock" data-info="r {code_chunk_offset=7, .line-numbers  cmd=&quot;Rscript&quot; continue=&quot;load_data&quot; continue=&quot;breaks&quot; args=&quot;--save&quot;}" class="language-r line-numbers">hist<span class="token punctuation">(</span>state<span class="token operator">$</span>Population<span class="token punctuation">,</span> breaks<span class="token operator">=</span>breaks<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></pre><div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"><img src="data:image/png;charset=utf-8;base64,RXJyb3I6IHNwYXduIHRydWUgRU5PRU5U"></div></div><p>Conventions:</p>
 <ul>
 <li>Empty bins are included in the graphs</li>
 <li>Bins are equal width</li>

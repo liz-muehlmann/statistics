@@ -164,14 +164,14 @@ boxplot(state$Population/100000, ylab="Population (millions)")
 A frequency table divides the variable into equally spaced segments and tells us how many values fall within each segment. Histograms are the visual version of frequecy tables. Empty bins should be inluded. The user chooses the bin size.
 
 #### Frequency Tables
-``` {r}
+``` r {.line-numbers  cmd="Rscript" continue="load_data" id="breaks" args="--save"}
 breaks <-seq(from=min(state$Population), to=max(state$Population), length=11) # set breaks to start at the minimum population and end at the maximum population, with 10 bins (it is zero indexed)
 pop_freq <- cut(state$Population, breaks=breaks, right=TRUE, include.lowest=TRUE) # cut the population column using the breaks described above. right = TRUE means that the intervals should be closed on the right. include.lowest = TRUE means the lowest interval should be included.
 table(pop_freq) # returns a contingency table. This is all you need to get a frequency table.
 ```
 
 The frequency table above is not readable. So, we use different packages to manipulate the data into a more readable format.
-```{r}
+```r {.line-numbers  cmd="Rscript" continue="load_data" args="--save"}
 state$PopFreq <- pop_freq # adds the data from pop_freq to the dataset in a new column titled PopFreq so we can manipulate it below using dplyr, which is part of Tidyverse
 
 ## this code makes a table of states and abbreviations
@@ -200,7 +200,7 @@ When choosing bin size, keep in mind that bins that are too large might loose im
 
 #### Histograms
 Histograms are how we visualize frequency tables. The bins are on the x-axis with the counts on the y-axis.
-``` {r}
+``` r {.line-numbers  cmd="Rscript" continue="load_data" continue="breaks" args="--save"}
 hist(state$Population, breaks=breaks)
 ```
 Conventions:

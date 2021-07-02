@@ -1,0 +1,192 @@
+---
+title: "ISL Chapter 6"
+author: "Liz"
+date: "5/22/2021"
+# output:
+#   html_notebook:
+#     highlight: haddock
+# runtime: shiny
+---
+
+# Chapter 6
+This chapter looks at alternative fitting procedures (moving beyond least squares)
+
+Alternative methods can improve:
+1. *Prediction Accuracy:* If the number of observations is not much larger than the number of predictors, there can be a lot of variablity in the least squares fit which leads to poor predictions. If the number of predictors is greater than the number of observations, then there is no *best* fit line
+2. *Model Interpretability:* Including predictors that aren't really associated with the response complicates the model unnecessarily. Other methods offer feature selection or variable selection.
+
+##### Three classes of methods
+1. *Subset Selection:* Identify a smaller number of predictors we think are related to the response and fit the least squares model using the reduced set of variables.
+2. *Shrinkage:* Fit the model on all the predictors, except with the estimated coefficients shrunken towards zero (aka regularization) which reduces variance.
+3. *Dimension Reduction:* Projecting the predictors ($ p $ into a $ M $-dimensional subspace (where $ M  < p $). Then using the $ M $ projections as predictors in the least squares fit.
+
+### 6.1 Subset Selection
+#### 6.1.1 Best Subset Selection
+
+1. Start with a model without any predictors.
+2. Fits all $ p $ models that have exactly one predictor, then two predictors, then three, etc.
+3. Look for the model that is *best.*
+
+The problem with this approach is picking the *best* model is not as easy as it seems.
+
+
+*The math version of best subset selection:*
+
+1. $ \mathcal{M}_0 $ is used for the *null model* which contains no predictors. It just predicts the sample mean for each observation.
+2. Identify the best model for each subset size using the training data in order to reduce the number of possible models.
+  For $ k = 1, 2, ... p $:
+  a. Fit all $ \binom{p}{k} $ that contain exactly $ k $ predictors.
+  b. Pick the best among these $ \binom{p}{k} $ models, call it $ \mathcal{M}_k $.
+    $ \quad $ best is the model with either the smallest $ RSS $ or the largest $ R^2 $.
+3.  Select a single best model among the $ \mathcal{M}_0...\mathcal{p} $ using cross validated prediction error ($ C_p (AIC), BIC $, or adjusted $ R^2 $)
+
+
+This method can also be used for other non-least squares models like logistic regression. However, in stead of $ RSS $ in step two, *deviance* is used.
+*Deviance* is similar to $ RSS $ and is equivalent to negative two times the maximized log-likelihood. The smaller the deviance, the better.
+
+*Problems:* the number of possible models increases as the number of predictors and is computationally infeasible if the number of predictors goes over 40.
+
+#### 6.1.2 Stepwise Selection
+**Forward Stepwise Selection:**
+
+1. Starts with a model without any predictors.
+2. Adds predictors to the model one at a time, until all predictors are included.
+
+    + at each step the variable that gives the greatest additional improvement is added.
+
+*The math version of forward stepwise selection:*
+
+1. $ \mathcal{M}_0 $ is used for the *null model* which contains no predictors.
+2. For $ k = 0, ...,  p-1 $:
+  a. consider all $ p - k $ models that augment the predictors in $ \mathcal{M}_k $ with one additional predictor
+  b. Choose the best among the $ p-k $ models, call it $ \mathcal{M}_{k+1} $
+3.  Select a single best model among the $ \mathcal{M}_0...\mathcal{p} $ using cross validated prediction error ($ C_p (AIC), BIC $, or adjusted $ R^2 $)
+
+This method requires fitting substantially less models than best subset selection. However, choosing the best model out of the available choices means choosing between models with different numbers of variables.
+
+**Backward Stepwise Selection:**
+
+1. Starts with a full least squares model containing all of the predictors.
+2. Iteratively removes the least useful predictor one at a time.
+
+*The math version of backward stepwise selection:*
+1. $ \mathcal{M}_p $is the *full* model with all predictors ($ p $).
+2. For $ k = p, p-1,...,1 $:
+  a. Consider all $ k $ models that contain all but one of the predictors
+  b. Choose the best among the $ k $ models, call it $ \mathcal{M}_{k-1} $
+3. Select a single best model among the $ \mathcal{M}_0...\mathcal{p} $ using cross validated prediction error ($ C_p (AIC), BIC $, or adjusted $ R^2 $)
+
+Backward selection requires that the number of observations be larger than the number of variables.
+
+**Hybrid Models** are also available where variables are added sequentially, but the method may remove variables that no longer provide and improvement.
+
+#### 6.1.3 Choosing the Optimal Model
+1. Indirectly estimate the test error by making an adjustment to the training error to account for the bias due to overfitting.
+2. Directly estimate the test error using validation set or cross validation approaches.
+
+$C_p, AIC, BIC,$ **and Adjusted** $ R^2 $
+There are a number of ways to adjust the training error for the model size in order to avoid underestimating the test $ MSE $ ($ MSE = RSS/n $).
+
+Name | Formula | Formula Explanation | What it Does | What to Look For
+----------- | ----------- | ----------- | ----------- | ----------- |
+$ C_p $ | $ \frac{1}{n}(RSS+2d \hat{\sigma}^2) $ | $ \hat{\sigma}^2 $ is an estimate of the variance of the error $ \epsilon $ associated with each response measurement. $ d $ is the number of predictors. | What $ C_p $ does is adjusts the $ RSS $ by adding a penalty of $ 2d \hat{\sigma}^2 $ to the training $ RSS $ The more predictors ($ d $), the bigger the penalty | Lowest
+$ AIC $ | $ \frac{1}{n\hat{\sigma}^2} (RSS+2d \hat{\sigma}^2) $ | $ \hat{\sigma}^2 $ is an estimate of the variance of the error $ \epsilon $ associated with each response measurement. $ d $ is the number of predictors. | For least squares models, it's proportional to $ C_p$ | Lowest
+$ BIC $ | $ \frac{1}{n\hat{\sigma}^2} (RSS+ log(n)d \hat{\sigma}^2) $ | $ \hat{\sigma}^2 $ is an estimate of the variance of the error $ \epsilon $ associated with each response measurement. $ d $ is the number of predictors. $ n $ is the number of observations | Similar to the $ C_p$ and $ AIC $, but from a Bayesian point of view. It also places a larger penalty on models with many variables. | Lowest
+Adjusted $ R^2 $ | $ 1 - \frac{RSS/(n-d-1)}{TSS/(n-1)} $ | $ d $ is the number of predictors. | The $ R^2 $ will always increase as variables are added. It uses the intuition that adding *noise* variables will increase $ \frac{RSS}{n-d-1} $ which will reduce the $ R^2 $ | Highest
+Validation & Cross-Validation | Uses normal validation & cross validation techniques. | This process relies on the *one-standard-error* rule. | First calculate standard error of the estimated test $ MSE $ for each model size, then select the smallest model for which the estimated test error is within one standard error of the lowest point on the curve | Model with the lowest number of predictors
+
+### 6.2 Shrinkage Methods
+An alternative to using least squares is using a model with all the predictors that *constrains* or *regularizes* the coefficient estimates or *shrinks* the coefficient estimates towards zero.
+
++ This can significantly reduce the variance.
+S
+#### 6.2.1 Ridge Regression
+Ridge regression is similar to least squares, but instead of minimizing the $ RSS $, coefficients are estimated by shrinking the coefficients and not the intecept.
+
+$ \displaystyle \sum_{i=1}^{n} \bigg( y_i - \beta_0 - \displaystyle \sum_{j=1}^{p} \beta_jx_{ij} \bigg)^2 + \lambda \displaystyle \sum_{j=1}^{p} \beta^2_j$
+$= RSS + \lambda \displaystyle \sum_{j=1}^{p} \beta^2_j $
+
+This equation trades off these two criteria:
+$ \lambda \ge 0 $ is a *tuning parameter* which is determined separately and control the impact these terms have on the coeeficient estimates.
+
++ when $ \lambda = 0 $ the tuning parameter has no effect.
++ as $ \lambda \to \infin $ the penalty grows causing the coefficients to approach 0.
++ penalty is not applied to the intercept, $ \beta_0 $.
+  + Therefore, if the data have been centered to have mean 0, the intercept takes the form:
+  + $ \hat{\beta}_0 = \bar{y} = \sum_{i=i}^n y_i/n $
+
+$ \lambda \displaystyle \sum_{j=1}^{p} \beta^2_j $ is a *shrinkage penalty* which is small when the $ \beta_1, ..., \beta_0 $ are close to zero.
+
+Ridge Regression creates a set of coefficients for each $ \lambda $, indicated by $ \hat{\beta}_{\lambda}^R $
+
+  + When $ \lambda $ is very large, the ridge coefficients are close to zero which corresponds to the null model
+  + Ridge regression estimates are dependent on the scale of the predictors, thus it's important to *standardize the predictors* using:
+    + $ \tilde{x}_{ij} = \frac{x_{ij}}{\sqrt{\frac {1}{n} \sum^{n}_{i=1}(x_{ij}-\bar{x}_j)^2}} $
+    + The demoninator is the estimated standard deviation of the *j*th predictor.
+
+Ridge Regressions advantage over least-squares lies in the *bias-variance tradeoff*
+  + as $ \lambda $ increases, the fit decreases which decreases variance (but increases bias).
+  + Ridge regression works best when least squares estimates have high variance.
+  + Limitation: it includes all predictors in the model.
+    + Which does not change the estimates, but may make the coefficients difficult to interpret.
+  + Ridge regression shrinks every dimension by the same proportion
+
+#### 6.2.2 The Lasso
+*The Lasso* is advantageous over Ridge Regression because it forces some coefficient estimates to be exactly zero.
+
+$ \displaystyle \sum^{n}_{i=1} \bigg( y_i - \beta_0 - \displaystyle \sum^{p}_{j=1}\beta_jx_{ij} \bigg)^2 + \lambda \displaystyle \sum^{p}_{j=1} |\beta_j| $
+$ = RSS + \lambda \displaystyle \sum^{p}_{j=1}|\beta_j| $
+
+The lasso is similar to the ridge regression, except that the lasso's penalty has the effect of forcing some coefficient estimates to zero when $ \lambda $ is sufficiently large. This is called *soft-thresholding*
+
++ This causes the lasso to perform variable selection which makes interpreting it much easier.
+
+The lasso will yield more accurate predictions when there is a small number of predictors.
+Ridge regression will yield more accurate predictions when there is a large number of predictors.
++ since the number of predictors that are related to the response is rarely known a priori, cross validation is used to determine which performs better with real data.
++ shrinks all coefficients toward zero by a similar amount and sufficiently small coefficients are shrunken to zero
+
+##### Bayesian Interpretation for Ridge Regression and the Lasso
++ Bayesian viewpoint assumes that the coefficient vector $ /beta $ has a prior distribution.
+  + Multiplying the prior distribution $ f(Y|B, \beta) $, by the likelihood gives the *posterior distribution:*
+    + $ p(\beta|X,Y) \alpha f(Y|X,\beta)p(\beta|X) = f(Y|X, \beta)p(\beta) $
+    + This equation is the probability of beta given $ X, Y $, being proportional to the function of $ Y $ given $ X, \beta $ which is equal to the function $ Y $ given $ X, \beta $ multiplied by the probability of $ \beta $
+
+If the density is a Gaussian distribution, mean 0 and standard deviation is a function of $ \lambda $ the *posterior mode* for $ \beta $ is given by the ridge regression solution.
+If the density is double-exponential (laplace) with mean zero and scale parameter is a function of $ \lambda $ the *posterior mode* for $ \beta $ is the lasso solution.
+
+#### 6.2.3 Selecting the Tuning Parameter
+1. Choose a grid of $ \lambda $ values
+2. Compute the cross-validation error for each value of $ \lambda $
+3. Select the tuning parameters with the smallest cross-validation error
+4. Refit the model with all available observations and the selected tuning parameter
+
+### 6.3 Dimension Reduction Methods
+
+*Dimension reduction methods* transform the predictors then fit a least squares model.
+These methods constrain the estimated $ \beta_j $ coefficients because they must now take the form:
+ $ \beta_j = \displaystyle \sum^{M}_{m=1}\theta_m\phi_{jm} $
+ + where $ M $ represents the linear combinations of the original $ p $ predictors.
+ + $ \phi $ are the constants
+ + $ \theta $ are the regression coefficients
+
+ Constraining coefficients to this form has the potential to introduce bias, but the bias is reduced when the number of predictors is large relative to the number of observations.
+
+ Steps to dimension reduction:
+ 1. transform the predictors
+ 2. fit the model using the transformed predictors
+
+##### Principal Component Analysis (PCA)
+*First principal component* the direction of the data where the observations have the most variance.
++ this vector defines the line that is as close as possible to the data.
+
+You can find principal component lines up to the amount of predictors that you have.
+
+*Second Principal Component* ($ Z_2 $): linear combination of the variables that is uncorrelated to $ Z_1 $
++ It is the line perpendicular to the first principle component direction.
+
+##### Principal Components Regression (PCR)
+1. Construct the first $ M $ principal components.
+2. Use these constructed components as predictors in a linear regression model that's fit using least squares.
+
+This assumes that only a small number of principal components explain most of the data's variablity. Furthermore, the direction the observations show the most variation are the ones that are most associated with $ Y $.

@@ -1,0 +1,30 @@
+---
+title: "Exercises - ISL Chapter 3"
+author: "Liz Muehlmann"
+date: "7/27/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Chapter 3: Linear Regression
+### conceptual
+
+<span style = "color: grey">
+1. Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV, radio, and newspaper, rather than in terms of the coefficients of the linear model.
+</span>
+
+```{r echo=FALSE, out.width = '100%'}
+knitr::include_graphics("https://i.imgur.com/Xa6TfHU.png")
+```
+<br> 
+
+| TV | Null Hypothesis |
+| ------------- | ------------- |
+TV | $H_0 = \beta_0 = 0$
+radio | $H_0 = \beta_1 = 0$
+newspaper | $H_0 = \beta_2 = 0$
+<br>
+The p-values for TV and Radio are significant, so the null hypothesis can be rejected. The p-value for newspapers is higher than the accepted significance level of p < 0.05 and cannot be rejected. This indicates that newspaper advertising does not increase sales when there is also TV and Radio advertising. 
+
